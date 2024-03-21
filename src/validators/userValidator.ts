@@ -1,12 +1,6 @@
-interface UserToRegister{
-    name: string,
-    lastName: string,
-    username: string,
-    email: string,
-    password: string,
-}
+import { UserToRegisterDTO } from "@/dtos/user.dto";
 
-export function validateUserRegistration(data: UserToRegister):void{
+export function validateUserRegistration(data: UserToRegisterDTO):void{
     if(!data.name || !data.lastName || !data.username || !data.email || !data.password){
         throw new Error("All fields are required");
     }
