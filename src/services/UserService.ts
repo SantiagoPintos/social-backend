@@ -15,5 +15,13 @@ export class UserService {
         await AppDataSource.getRepository(User).save(user);
         return user;
     }
+
+    async login(data: { username: string, password: string }): Promise<User> {
+        const user = await AppDataSource.getRepository(User).findOne({ where: { username: data.username } });
+        if (!user || user.password !== data.password) {
+            throw new Error('User or password incorrect');
+        }
+        return user;
+    }
 }
 

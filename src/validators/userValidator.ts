@@ -1,4 +1,4 @@
-import { UserToRegisterDTO } from "@/dtos/user.dto";
+import { UserToRegisterDTO, UserToLoginDTO } from "@/dtos/user.dto";
 
 export function validateUserRegistration(data: UserToRegisterDTO):void{
     if(!data.name || !data.lastName || !data.username || !data.email || !data.password){
@@ -36,5 +36,20 @@ export function validateUserRegistration(data: UserToRegisterDTO):void{
     }
     if(data.email.includes(" ")){
         throw new Error("Email must not contain spaces");
+    }
+}
+
+export function validateUserLogin(data: UserToLoginDTO):void{
+    if(!data.username || !data.password){
+        throw new Error("All fields are required");
+    }
+    if(data.password.length < 8){
+        throw new Error("Password must be at least 8 characters long");
+    }
+    if(data.username.length < 1){
+        throw new Error("Username invalid");
+    }
+    if(data.username.includes(" ")){
+        throw new Error("Username must not contain spaces");
     }
 }
