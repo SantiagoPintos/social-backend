@@ -27,7 +27,7 @@ export const loginUser = async (req: Request, res: Response) => {
         validateUserLogin(user);
         const logged = await userService.login(user);
         const token = await TokenService.getToken(logged.id);
-        res.status(200).json({ message: 'Usuario logueado con éxito.', token: token });
+        res.status(200).json({ message: 'Usuario logueado con éxito.', token: token.token });
     } catch(error: any){
         res.status(400).json({ message: error.message });
     }
