@@ -1,7 +1,9 @@
 import express from 'express';
 import { AppDataSource } from './orm/dataSource';
 import  userRoutes from './routes/UserRoutes';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const app = express();
 const port = 4000;
 
