@@ -14,7 +14,7 @@ export const registerUser = async (req: Request, res: Response) => {
         validateUserRegistration(user);
         const registeredUser: User = await userService.register(user);
         const token = AuthService.generateToken(req.body.deviceId, registeredUser);
-        TokenService.saveToken(registeredUser.id, token);
+        await TokenService.saveToken(registeredUser.id, token);
         res.status(201).json({ message: 'Usuario registrado con éxito.', token });
     } catch (error: any) {
         res.status(400).json({ message: error.message });
@@ -25,8 +25,9 @@ export const loginUser = async (req: Request, res: Response) => {
     try{
         const user: UserToLoginDTO = req.body;
         validateUserLogin(user);
-        await userService.login(user);
-        res.status(200).json({ message: 'Usuario logueado con éxito.' });
+        const logged = await userService.login(user);
+        const token = await TokenService.getToken(logged.id);
+        res.status(200).json({ message: 'Usuario logueado con éxito.', token: token });
     } catch(error: any){
         res.status(400).json({ message: error.message });
     }

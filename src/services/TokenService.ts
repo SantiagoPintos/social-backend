@@ -10,8 +10,7 @@ class TokenService {
         await AppDataSource.getRepository(Tokens).save({ userId, token, generated: new Date() });
     }
 
-    async getToken(token: Tokens): Promise<Tokens> {
-        const userId = token.userId;
+    async getToken(userId: number): Promise<Tokens> {
         const tokenData = await AppDataSource.getRepository(Tokens).findOne({ where: { userId } });
         if (!tokenData) {
             throw new Error('Token not found');
