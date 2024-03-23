@@ -1,15 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, Column, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class Tokens {
-  @PrimaryGeneratedColumn()
-    id!: number;
+  @PrimaryColumn()
+    userId!: number;
 
   @Column()
     token!: string;
-
-  @Column()
-    userId!: number;
 
   @Column()
     generated!: Date;

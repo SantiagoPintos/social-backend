@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { UserService } from "./../services/UserService";
 import  AuthService  from "./../services/AuthService";
+import  TokenService  from "./../services/TokenService";
 import { validateUserLogin, validateUserRegistration } from "./../validators/userValidator";
 import { UserToRegisterDTO, UserToLoginDTO } from "./../dtos/user.dto";
 import { User } from "./../entities/User";
@@ -13,6 +14,7 @@ export const registerUser = async (req: Request, res: Response) => {
         validateUserRegistration(user);
         const registeredUser: User = await userService.register(user);
         const token = AuthService.generateToken(req.body.deviceId, registeredUser);
+        TokenService.saveToken(registeredUser.id, token);
         res.status(201).json({ message: 'Usuario registrado con éxito.', token });
     } catch (error: any) {
         res.status(400).json({ message: error.message });
