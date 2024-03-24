@@ -27,7 +27,8 @@ export async function loginUser (req: Request, res: Response): Promise<void>{
         const logged: User = await UserService.login(user);
         const token: Tokens|null = await TokenService.getToken(logged.id);
         if(token) await TokenService.revokeToken(token);
-        const newToken: String = AuthService.generateToken(req.body.deviceId, logged);
+        const newToken: string = AuthService.generateToken(req.body.deviceId, logged);
+        await TokenService.saveToken(logged.id, newToken);
         res.status(200).json({ message: 'Usuario logueado con éxito.', token: newToken });
     } catch(error: any){
         res.status(400).json({ message: error.message });
