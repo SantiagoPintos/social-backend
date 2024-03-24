@@ -8,7 +8,7 @@ import { User } from "./../entities/User";
 
 const userService = new UserService();
 
-export const registerUser = async (req: Request, res: Response) => {
+export async function registerUser(req: Request, res: Response): Promise<void> {
     try {
         const user: UserToRegisterDTO = req.body;
         validateUserRegistration(user);
@@ -21,7 +21,7 @@ export const registerUser = async (req: Request, res: Response) => {
     }
 }
 
-export const loginUser = async (req: Request, res: Response) => {
+export async function loginUser (req: Request, res: Response): Promise<void>{
     try{
         const user: UserToLoginDTO = req.body;
         validateUserLogin(user);
