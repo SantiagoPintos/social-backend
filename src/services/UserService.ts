@@ -2,7 +2,7 @@ import { AppDataSource } from "./../orm/dataSource";
 import { User } from "./../entities/User";
 import PasswordService from "./PasswordService";
 
-export class UserService {
+class UserService {
 
     async register(data: Partial<User>): Promise<User> {
         //check if the user already exists
@@ -33,3 +33,4 @@ export class UserService {
     }
 }
 
+export default new UserService();
