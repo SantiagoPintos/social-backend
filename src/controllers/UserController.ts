@@ -5,6 +5,7 @@ import { User } from "./../entities/User";
 import  UserService from "./../services/UserService";
 import  AuthService  from "./../services/AuthService";
 import  TokenService  from "./../services/TokenService";
+import { Tokens } from "@/entities/Tokens";
 
 export async function registerUser(req: Request, res: Response): Promise<void> {
     try {
@@ -23,9 +24,11 @@ export async function loginUser (req: Request, res: Response): Promise<void>{
     try{
         const user: UserToLoginDTO = req.body;
         validateUserLogin(user);
-        const logged = await UserService.login(user);
-        const token = await TokenService.getToken(logged.id);
-        res.status(200).json({ message: 'Usuario logueado con éxito.', token: token.token });
+        const logged: User = await UserService.login(user);
+        const token: Tokens|null = await TokenService.getToken(logged.id);
+        if(token) await TokenService.revokeToken(token);
+        const newToken: String = AuthService.generateToken(req.body.deviceId, logged);
+        res.status(200).json({ message: 'Usuario logueado con éxito.', token: newToken });
     } catch(error: any){
         res.status(400).json({ message: error.message });
     }

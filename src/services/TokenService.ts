@@ -10,12 +10,8 @@ class TokenService {
         await AppDataSource.getRepository(Tokens).save({ userId, token, generated: new Date() });
     }
 
-    async getToken(userId: number): Promise<Tokens> {
-        const tokenData = await AppDataSource.getRepository(Tokens).findOne({ where: { userId } });
-        if (!tokenData) {
-            throw new Error('Token not found');
-        }
-        return tokenData;
+    async getToken(userId: number): Promise<Tokens|null> {
+        return await AppDataSource.getRepository(Tokens).findOne({ where: { userId } }) || null;
     }
 
     async revokeToken(token: Tokens): Promise<void> {
