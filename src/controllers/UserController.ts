@@ -15,8 +15,8 @@ export async function registerUser(req: Request, res: Response): Promise<void> {
         const token = AuthService.generateToken(req.body.deviceId, registeredUser);
         await TokenService.saveToken(registeredUser.id, token);
         res.status(201).json({ message: 'Usuario registrado con éxito.', token });
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
+    } catch (error: unknown) {
+        res.status(400).json({ message: (error as Error).message });
     }
 }
 
@@ -30,7 +30,7 @@ export async function loginUser (req: Request, res: Response): Promise<void>{
         const newToken: string = AuthService.generateToken(req.body.deviceId, logged);
         await TokenService.saveToken(logged.id, newToken);
         res.status(200).json({ message: 'Usuario logueado con éxito.', token: newToken });
-    } catch(error: any){
-        res.status(400).json({ message: error.message });
+    } catch(error: unknown){
+        res.status(400).json({ message: (error as Error).message });
     }
 }
