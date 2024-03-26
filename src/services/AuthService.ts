@@ -1,5 +1,5 @@
 import { User } from '@/entities/User';
-import jsonwebtoken, { Secret } from 'jsonwebtoken';
+import jsonwebtoken, { JwtPayload, Secret } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 class AuthService {
@@ -20,13 +20,13 @@ class AuthService {
         };
         try{
             return jsonwebtoken.sign(combinedData, this.key);
-        }catch(error: any){
-            console.log('Error generating token', error.message);
+        } catch (error: unknown) {
+            console.log('Error generating token', (error as Error).message);
             throw new Error('Error generating token');
         }
     }
 
-    verifyToken(token: string): any{
+    verifyToken(token: string): string | JwtPayload{
         return jsonwebtoken.verify(token, this.key);
     }
 }
