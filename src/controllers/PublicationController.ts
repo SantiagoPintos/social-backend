@@ -19,7 +19,5 @@ export async function getUserPosts(req: Request, res: Response): Promise<void> {
         res.status(200).json(posts);
     } catch (error: unknown) {
         res.status(401).json({ message: (error as Error).message });
-    }
-    
-    return undefined;
+    }    
 }
