@@ -12,7 +12,6 @@ export async function getUserPosts(req: Request, res: Response): Promise<void> {
         if (!token) {
             throw new Error('You are not authorized to access this resource');
         }
-        
         const payload: JwtPayload | string = AuthService.verifyToken(token);
         if (!payload) {
             throw new Error('You are not authorized to access this resource');
@@ -21,9 +20,10 @@ export async function getUserPosts(req: Request, res: Response): Promise<void> {
         const userToken: Tokens | null = await TokenService.getToken(userId);
         if (token !== userToken?.token){
             throw new Error('You are not authorized to access this resource');
-        } 
-        const posts: Post[] = await PostService.getUserPosts(userId);
-        res.status(200).json({posts});
+        }
+        const numberOfPosts = parseInt(req.query.numberOfPosts as string) || undefined;
+        const posts: Post[] = await PostService.getUserPosts(userId, numberOfPosts);
+        res.status(200).json({ posts });
     } catch (error: unknown) {
         console.log(error);
         res.status(401).json({ message: 'Something went wrong' });
