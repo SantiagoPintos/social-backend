@@ -25,6 +25,7 @@ export async function getUserPosts(req: Request, res: Response): Promise<void> {
         const posts: Post[] = await PostService.getUserPosts(userId);
         res.status(200).json({posts});
     } catch (error: unknown) {
-        res.status(401).json({ message: (error as Error).message });
+        console.log(error);
+        res.status(401).json({ message: 'Something went wrong' });
     }    
 }
