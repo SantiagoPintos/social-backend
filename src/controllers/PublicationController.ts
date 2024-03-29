@@ -22,7 +22,8 @@ export async function getUserPosts(req: Request, res: Response): Promise<void> {
             throw new Error('You are not authorized to access this resource');
         }
         const numberOfPosts = parseInt(req.query.numberOfPosts as string) || undefined;
-        const posts: Post[] = await PostService.getUserPosts(userId, numberOfPosts);
+        const postId = parseInt(req.query.userid as string) || undefined;
+        const posts: Post[] = await PostService.getUserPosts(userId, numberOfPosts, postId);
         res.status(200).json({ posts });
     } catch (error: unknown) {
         console.log((error as Error).message);

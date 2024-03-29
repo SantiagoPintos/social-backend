@@ -3,11 +3,14 @@ import { Post } from "./../entities/Post";
 import { FindManyOptions } from "typeorm";
 
 class PostService{
-    async getUserPosts(userId: number, numberOfPosts: number|undefined) : Promise<Post[]> {
+    async getUserPosts(userId: number, numberOfPosts: number|undefined, postId: number|undefined) : Promise<Post[]> {
         if(!userId){
             throw new Error('invalid user id');
         }
         const options: FindManyOptions<Post> = { where: { autorId: userId } };
+        if(postId && postId > 0){
+            options.where = { id: postId };
+        }
         if(numberOfPosts && numberOfPosts > 0){
             options.take = numberOfPosts;
             options.order = { id: 'DESC' };
