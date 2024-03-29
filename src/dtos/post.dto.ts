@@ -1,9 +1,7 @@
-interface PostDTO{
-    id: number,
+interface newPostDTO{
     autorId: number,
     content: string,
     date: Date,
-    likes: number
 }
 
-export { PostDTO }
+export { newPostDTO }
