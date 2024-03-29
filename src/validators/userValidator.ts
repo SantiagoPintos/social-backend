@@ -1,55 +1,56 @@
 import { UserToRegisterDTO, UserToLoginDTO } from "@/dtos/user.dto";
+import UserDataIncompleteError from "./../errors/User/UserDataIncompleteError";
 
 export function validateUserRegistration(data: UserToRegisterDTO):void{
     if(!data.name || !data.lastName || !data.username || !data.email || !data.password){
-        throw new Error("All fields are required");
+        throw new UserDataIncompleteError("All fields are required");
     }
     if(data.name.length < 3){
-        throw new Error("Name must be at least 3 characters long");
+        throw new UserDataIncompleteError("Name must be at least 3 characters long");
     }
     if(data.name.includes(" ")){
-        throw new Error("Name must not contain spaces");
+        throw new UserDataIncompleteError("Name must not contain spaces");
     }
     if(data.lastName.length < 3){
-        throw new Error("Last name must be at least 3 characters long");
+        throw new UserDataIncompleteError("Last name must be at least 3 characters long");
     }
     if(data.lastName.includes(" ")){
-        throw new Error("Last name must not contain spaces");
+        throw new UserDataIncompleteError("Last name must not contain spaces");
     }
     if(data.username.length < 3){
-        throw new Error("Username must be at least 3 characters long");
+        throw new UserDataIncompleteError("Username must be at least 3 characters long");
     }
     if(data.username.includes(" ")){
-        throw new Error("Username must not contain spaces");
+        throw new UserDataIncompleteError("Username must not contain spaces");
     }
     if(data.password.length < 8){
-        throw new Error("Password must be at least 8 characters long");
+        throw new UserDataIncompleteError("Password must be at least 8 characters long");
     }
     if(data.email.length < 8){
-        throw new Error("Email must be at least 8 characters long");
+        throw new UserDataIncompleteError("Email must be at least 8 characters long");
     }
     if(!data.email.includes("@")){
-        throw new Error("Email must contain @");
+        throw new UserDataIncompleteError("Email must contain @");
     }
     if(!data.email.includes(".")){
-        throw new Error("Email must contain .");
+        throw new UserDataIncompleteError("Email must contain .");
     }
     if(data.email.includes(" ")){
-        throw new Error("Email must not contain spaces");
+        throw new UserDataIncompleteError("Email must not contain spaces");
     }
 }
 
 export function validateUserLogin(data: UserToLoginDTO):void{
     if(!data.username || !data.password){
-        throw new Error("All fields are required");
+        throw new UserDataIncompleteError("All fields are required");
     }
     if(data.password.length < 8){
-        throw new Error("Password must be at least 8 characters long");
+        throw new UserDataIncompleteError("Password must be at least 8 characters long");
     }
     if(data.username.length < 1){
-        throw new Error("Username invalid");
+        throw new UserDataIncompleteError("Username invalid");
     }
     if(data.username.includes(" ")){
-        throw new Error("Username must not contain spaces");
+        throw new UserDataIncompleteError("Username must not contain spaces");
     }
 }
