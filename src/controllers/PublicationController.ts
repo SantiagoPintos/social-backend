@@ -6,21 +6,23 @@ import { Post } from "./../entities/Post";
 import { JwtPayload } from "jsonwebtoken";
 import { Tokens } from "./../entities/Tokens";
 import { newPostDTO } from "./../dtos/post.dto";
+import NotAuthorizedError from "./../errors/Publication/NotAuthorizedError";
+import PostDataIncompleteError from "./../errors/Publication/PostDataIncompleteError";
 
 export async function getUserPosts(req: Request, res: Response): Promise<void> {
     try {
         const token = req.headers.authorization;
         if (!token) {
-            throw new Error('You are not authorized to access this resource');
+            throw new NotAuthorizedError();
         }
         const payload: JwtPayload | string = AuthService.verifyToken(token);
         if (!payload) {
-            throw new Error('You are not authorized to access this resource');
+            throw new NotAuthorizedError();
         }
         const userId = typeof payload === 'string' ? '' : payload.id;
         const userToken: Tokens | null = await TokenService.getToken(userId);
         if (token !== userToken?.token){
-            throw new Error('You are not authorized to access this resource');
+            throw new NotAuthorizedError();
         }
         const numberOfPosts = parseInt(req.query.numberOfPosts as string) || undefined;
         const postId = parseInt(req.query.userid as string) || undefined;
@@ -36,16 +38,16 @@ export async function newUserPost(req: Request, res: Response): Promise<void>{
     try{
         const token = req.headers.authorization;
         if (!token) {
-            throw new Error('You are not authorized to access this resource');
+            throw new NotAuthorizedError();
         }
         const payload: JwtPayload | string = AuthService.verifyToken(token);
         if (!payload) {
-            throw new Error('You are not authorized to access this resource');
+            throw new NotAuthorizedError();
         } 
         const userId = typeof payload === 'string' ? '' : payload.id;
         const userToken: Tokens | null = await TokenService.getToken(userId);
         if (token !== userToken?.token){
-            throw new Error('You are not authorized to access this resource');
+            throw new NotAuthorizedError();
         }
         const post: newPostDTO = {
             content: req.body.content,
@@ -53,7 +55,7 @@ export async function newUserPost(req: Request, res: Response): Promise<void>{
             autorId: userId
         };
         if (!post.content || !post.date){
-            throw new Error('Post data is incomplete');
+            throw new PostDataIncompleteError();
         }
         const newPost: Post = await PostService.newUserPost(userId, post);
         res.status(201).json({ message: 'Post created successfully', post: newPost });
