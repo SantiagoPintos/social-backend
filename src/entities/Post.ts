@@ -4,6 +4,6 @@ import { Comment } from "./Comment";
 
 @Entity()
 export class Post extends Publication {
-    @OneToMany(() => Comment, comment => comment.post)
-    comments!: Comment[];
+    @OneToMany(() => Comment, (comment) => comment.parentPost)
+    comments: Comment[] | undefined
 }
