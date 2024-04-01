@@ -20,9 +20,8 @@ class PostService{
             options.take = numberOfPosts;
             options.order = { id: 'DESC' };
         }
-        const posts = await AppDataSource.getRepository(Post).find(options);
         
-        return posts;
+        return await AppDataSource.getRepository(Post).find(options);
     }
 
     async newUserPost(userId: number, postData: newPostDTO): Promise<Post> {
