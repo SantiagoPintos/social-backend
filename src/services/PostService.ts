@@ -9,7 +9,10 @@ class PostService{
         if(!userId){
             throw new Error('invalid user id');
         }
-        const options: FindManyOptions<Post> = { where: { autorId: userId } };
+        const options: FindManyOptions<Post> = { 
+            where: { autorId: userId },
+            relations: ['comments'] 
+        };
         if(postId && postId > 0){
             options.where = { id: postId };
         }
@@ -17,7 +20,9 @@ class PostService{
             options.take = numberOfPosts;
             options.order = { id: 'DESC' };
         }
-        return await AppDataSource.getRepository(Post).find(options);
+        const posts = await AppDataSource.getRepository(Post).find(options);
+        
+        return posts;
     }
 
     async newUserPost(userId: number, postData: newPostDTO): Promise<Post> {
