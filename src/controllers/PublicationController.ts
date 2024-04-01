@@ -94,3 +94,27 @@ export async function newUserPostComment(req: Request, res: Response): Promise<v
         res.status(401).json({ message: 'Something went wrong' });
     }
 }
+
+export async function getUserPostsComment(req: Request, res: Response): Promise<void>{
+    try{
+        const token = req.headers.authorization;
+        if (!token) {
+            throw new NotAuthorizedError();
+        }
+        const payload: JwtPayload | string = AuthService.verifyToken(token);
+        if (!payload) {
+            throw new NotAuthorizedError();
+        }
+        const userId = typeof payload === 'string' ? '' : payload.id;
+        const userToken: Tokens | null = await TokenService.getToken(userId);
+        if (token !== userToken?.token){
+            throw new NotAuthorizedError();
+        }
+        const postId = parseInt(req.body.postId as string);
+        const comments: Comment[] = await PostService.getUserPostsComment(postId);
+        res.status(200).json({ comments });
+    } catch(error: unknown){
+        console.log((error as Error).message);
+        res.status(401).json({ message: 'Something went wrong' });
+    }
+}
