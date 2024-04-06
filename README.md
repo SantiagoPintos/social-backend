@@ -48,7 +48,7 @@ Start the server
 
 To run this project, you will need to add the following environment variables to your .env file
 
-`WT_SECRET`
+`JWT_SECRET`
 
 
 
@@ -220,7 +220,7 @@ Returns an object with the comments.
 **Server:** Node, Express, TypeScript, TypeORM, SQLite
 
 
-## Authors
+## Author
 
 - [Santiago Pintos](https://github.com/SantiagoPintos)
 
