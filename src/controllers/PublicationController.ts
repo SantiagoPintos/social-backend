@@ -27,7 +27,7 @@ export async function getUserPosts(req: Request, res: Response): Promise<void> {
             throw new NotAuthorizedError();
         }
         const numberOfPosts = parseInt(req.query.numberOfPosts as string) || undefined;
-        const postId = parseInt(req.query.userid as string) || undefined;
+        const postId = parseInt(req.query.postId as string) || undefined;
         const posts: Post[] = await PostService.getUserPosts(userId, numberOfPosts, postId);
         res.status(200).json({ posts });
     } catch (error: unknown) {
