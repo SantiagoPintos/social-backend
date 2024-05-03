@@ -184,33 +184,6 @@ Returns an object with the comment and its parent post.
 ```
 
 
-#### Get comments on a post
-
-```http
-  GET /publications/comments
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `Authorization header`      | `string` | **Required**. |
-| `userId` | `string` | **Required**. |
-| `postId`      | `string` | **Required**. |
-
-Returns an object with the comments.
-
-```http
-{
-    "comments": [
-        {
-            "id": 1,
-            "autorId": 2,
-            "content": "This is the first comment to my post!",
-            "date": "2024-04-06T19:21:05.893Z",
-            "likes": 0
-        }
-    ]
-}
-```
 ## Roadmap
 
 - Support publications with multimedia content
