@@ -102,6 +102,7 @@ Example:
 | :-------- | :------- | :------------------------- |
 | `Authorization header` | `string` | **Required**.|
 | `content` | `string` | **Required**.|
+| `userId` | `string` | **Required**. |
 
 Returns an object with the content of the new post.
 
@@ -156,6 +157,7 @@ Returns a list of the user's posts.
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `Authorization header`      | `string` | **Required**. |
+| `userId` | `string` | **Required**. |
 | `comment`      | `string` | **Required**. |
 | `parentPostId`      | `string` | **Required**. |
 
@@ -191,6 +193,7 @@ Returns an object with the comment and its parent post.
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `Authorization header`      | `string` | **Required**. |
+| `userId` | `string` | **Required**. |
 | `postId`      | `string` | **Required**. |
 
 Returns an object with the comments.
