@@ -1,31 +1,14 @@
 import { Response, Request } from "express";
-import AuthService from "./../services/AuthService";
 import PostService from "./../services/PostService";
-import TokenService from "./../services/TokenService";
 import { Post } from "./../entities/Post";
 import { Comment } from "./../entities/Comment";
-import { Tokens } from "./../entities/Tokens";
-import { JwtPayload } from "jsonwebtoken";
 import { newPostDTO } from "./../dtos/post.dto";
-import NotAuthorizedError from "./../errors/Publication/NotAuthorizedError";
 import PostDataIncompleteError from "./../errors/Publication/PostDataIncompleteError";
 import CommentDataIncompleteError from "./../errors/Publication/CommentDataIncompleteError";
 
 export async function getUserPosts(req: Request, res: Response): Promise<void> {
     try {
-        const token = req.headers.authorization;
-        if (!token) {
-            throw new NotAuthorizedError();
-        }
-        const payload: JwtPayload | string = AuthService.verifyToken(token);
-        if (!payload) {
-            throw new NotAuthorizedError();
-        }
-        const userId = typeof payload === 'string' ? '' : payload.id;
-        const userToken: Tokens | null = await TokenService.getToken(userId);
-        if (token !== userToken?.token){
-            throw new NotAuthorizedError();
-        }
+        const userId = parseInt(req.query.userId as string);
         const numberOfPosts = parseInt(req.query.numberOfPosts as string) || undefined;
         const postId = parseInt(req.query.postId as string) || undefined;
         const posts: Post[] = await PostService.getUserPosts(userId, numberOfPosts, postId);
@@ -38,19 +21,7 @@ export async function getUserPosts(req: Request, res: Response): Promise<void> {
 
 export async function newUserPost(req: Request, res: Response): Promise<void>{
     try{
-        const token = req.headers.authorization;
-        if (!token) {
-            throw new NotAuthorizedError();
-        }
-        const payload: JwtPayload | string = AuthService.verifyToken(token);
-        if (!payload) {
-            throw new NotAuthorizedError();
-        } 
-        const userId = typeof payload === 'string' ? '' : payload.id;
-        const userToken: Tokens | null = await TokenService.getToken(userId);
-        if (token !== userToken?.token){
-            throw new NotAuthorizedError();
-        }
+        const userId = parseInt(req.body.userId as string);
         const post: newPostDTO = {
             content: req.body.content,
             date: new Date(),
@@ -69,19 +40,7 @@ export async function newUserPost(req: Request, res: Response): Promise<void>{
 
 export async function newUserPostComment(req: Request, res: Response): Promise<void>{
     try{
-        const token = req.headers.authorization;
-        if (!token) {
-            throw new NotAuthorizedError();
-        }
-        const payload: JwtPayload | string = AuthService.verifyToken(token);
-        if (!payload) {
-            throw new NotAuthorizedError();
-        } 
-        const userId = typeof payload === 'string' ? '' : payload.id;
-        const userToken: Tokens | null = await TokenService.getToken(userId);
-        if (token !== userToken?.token){
-            throw new NotAuthorizedError();
-        }
+        const userId = parseInt(req.body.userId as string);
         const comment = req.body.comment;
         const parentPostId = req.body.parentPostId;
         if (!comment || !parentPostId){
@@ -97,19 +56,6 @@ export async function newUserPostComment(req: Request, res: Response): Promise<v
 
 export async function getUserPostsComment(req: Request, res: Response): Promise<void>{
     try{
-        const token = req.headers.authorization;
-        if (!token) {
-            throw new NotAuthorizedError();
-        }
-        const payload: JwtPayload | string = AuthService.verifyToken(token);
-        if (!payload) {
-            throw new NotAuthorizedError();
-        }
-        const userId = typeof payload === 'string' ? '' : payload.id;
-        const userToken: Tokens | null = await TokenService.getToken(userId);
-        if (token !== userToken?.token){
-            throw new NotAuthorizedError();
-        }
         const postId = parseInt(req.body.postId as string);
         const comments: Comment[] = await PostService.getUserPostsComment(postId);
         res.status(200).json({ comments });
