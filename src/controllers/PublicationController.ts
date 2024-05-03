@@ -8,9 +8,9 @@ import CommentDataIncompleteError from "./../errors/Publication/CommentDataIncom
 
 export async function getUserPosts(req: Request, res: Response): Promise<void> {
     try {
-        const userId = parseInt(req.query.userId as string);
-        const numberOfPosts = parseInt(req.query.numberOfPosts as string) || undefined;
-        const postId = parseInt(req.query.postId as string) || undefined;
+        const userId = parseInt(req.body.userId as string);
+        const numberOfPosts = parseInt(req.body.numberOfPosts as string) || undefined;
+        const postId = parseInt(req.body.postId as string) || undefined;
         const posts: Post[] = await PostService.getUserPosts(userId, numberOfPosts, postId);
         res.status(200).json({ posts });
     } catch (error: unknown) {
