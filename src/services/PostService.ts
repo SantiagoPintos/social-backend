@@ -61,13 +61,6 @@ class PostService{
 
         return await commentRepository.save(newComment);
     }
-
-    async getUserPostsComment(postId: number|undefined): Promise<Comment[]> {
-        if(!postId){
-            throw new Error('invalid post id');
-        }
-        return await AppDataSource.getRepository(Comment).find({ where: { parentPost: { id: postId } } });
-    }
 }
 
 export default new PostService();
