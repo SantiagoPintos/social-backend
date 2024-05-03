@@ -1,10 +1,11 @@
 import express from "express";
 import { getUserPosts, newUserPost, newUserPostComment, getUserPostsComment } from "./../controllers/PublicationController";
+import { authUser } from "./../middleware/auth.middleware";
 
 const router = express.Router();
-router.get('/', getUserPosts);
-router.post('/', newUserPost);
-router.post('/comments', newUserPostComment);
-router.get('/comments', getUserPostsComment)
+router.get('/', authUser, getUserPosts);
+router.post('/', authUser, newUserPost);
+router.post('/comments', authUser, newUserPostComment);
+router.get('/comments', authUser, getUserPostsComment)
 
 export default router;
