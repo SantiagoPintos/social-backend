@@ -6,8 +6,8 @@
   "scripts": {
     "start": "ts-node src/app.ts",
     "dev": "nodemon --exec ts-node src/app.ts",
-    "build": "tsc",
-    "start:prod": "node build/app.js",
+    "build": "webpack --config webpack.config.js",
+    "start:prod": "node dist/bundle.js",
     "lint": "eslint . --ext .ts"
   },
   "repository": {
@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/SantiagoPintos/social-backend#readme",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "express": "^4.19.1",
     "jsonwebtoken": "^9.0.2",
@@ -34,7 +34,7 @@
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^2.4.6",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.11.30",
@@ -42,7 +42,11 @@
     "@typescript-eslint/parser": "^7.3.1",
     "eslint": "^8.57.0",
     "nodemon": "^3.1.0",
+    "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-filter-warnings-plugin": "^1.2.1"
   }
 }
