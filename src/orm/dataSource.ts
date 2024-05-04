@@ -9,7 +9,7 @@ import { Comment } from "./../entities/Comment";
 export const AppDataSource = new DataSource({
     type: "sqlite",
     database: "database.sqlite",
-    synchronize: true,
+    synchronize: false,
     logging: false,
     entities: [
         User, 
