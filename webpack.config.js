@@ -2,7 +2,7 @@ const path = require('path');
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: './src/app.ts',
   target: 'node',
   externals: {
