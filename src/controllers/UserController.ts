@@ -14,7 +14,7 @@ export async function registerUser(req: Request, res: Response): Promise<void> {
         const registeredUser: User = await UserService.register(user);
         const token = AuthService.generateToken(req.body.deviceId, registeredUser);
         await TokenService.saveToken(registeredUser.id, token);
-        res.status(201).json({ message: 'Usuario registrado con éxito.', token });
+        res.status(201).json({ message: 'User successfully registered', token });
     } catch (error: unknown) {
         res.status(400).json({ message: 'Something went wrong' });
     }
@@ -29,7 +29,7 @@ export async function loginUser (req: Request, res: Response): Promise<void>{
         if(token) await TokenService.revokeToken(token);
         const newToken: string = AuthService.generateToken(req.body.deviceId, logged);
         await TokenService.saveToken(logged.id, newToken);
-        res.status(200).json({ message: 'Usuario logueado con éxito.', token: newToken });
+        res.status(200).json({ message: 'User successfully logged in', token: newToken });
     } catch(error: unknown){
         res.status(400).json({ message: 'Something went wrong' });
     }
