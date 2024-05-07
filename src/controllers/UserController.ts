@@ -16,7 +16,7 @@ export async function registerUser(req: Request, res: Response): Promise<void> {
         await TokenService.saveToken(registeredUser.id, token);
         res.status(201).json({ message: 'Usuario registrado con éxito.', token });
     } catch (error: unknown) {
-        res.status(400).json({ message: (error as Error).message });
+        res.status(400).json({ message: 'Something went wrong' });
     }
 }
 
@@ -31,6 +31,6 @@ export async function loginUser (req: Request, res: Response): Promise<void>{
         await TokenService.saveToken(logged.id, newToken);
         res.status(200).json({ message: 'Usuario logueado con éxito.', token: newToken });
     } catch(error: unknown){
-        res.status(400).json({ message: (error as Error).message });
+        res.status(400).json({ message: 'Something went wrong' });
     }
 }
