@@ -4,7 +4,6 @@ import { User } from "./../entities/User";
 import { Tokens } from "./../entities/Tokens";
 import { Post } from "./../entities/Post";
 import { Comment } from "./../entities/Comment";
-import path from "path";
 
 
 export const AppDataSource = new DataSource({
@@ -19,7 +18,7 @@ export const AppDataSource = new DataSource({
         Comment
     ],
     migrations: [
-        path.join(__dirname, "./src/migrations/*.ts")
+        __dirname + "/../migrations/*{.ts,.js}"
     ],
     subscribers: [],
 });
