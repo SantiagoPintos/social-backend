@@ -16,7 +16,7 @@ export async function registerUser(req: Request, res: Response): Promise<void> {
         await TokenService.saveToken(registeredUser.id, token);
         res.status(201).json({ message: 'User successfully registered', token });
     } catch (error: unknown) {
-        res.status(400).json({ message: 'Something went wrong' });
+        res.status(400).json({ message: (error as Error).message });
     }
 }
 
