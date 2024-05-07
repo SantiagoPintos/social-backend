@@ -7,7 +7,7 @@
     "start": "ts-node src/app.ts",
     "dev": "nodemon --exec ts-node src/app.ts",
     "build": "webpack --config webpack.config.js",
-    "start:prod": "node dist/bundle.js",
+    "start:prod": "node dist/app.js",
     "lint": "eslint . --ext .ts"
   },
   "repository": {

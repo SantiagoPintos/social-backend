@@ -1,9 +1,18 @@
 const path = require('path');
+const glob = require('glob');
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 
 module.exports = {
   mode: 'production',
-  entry: './src/app.ts',
+  entry: {
+    app: './src/app.ts',
+    ...glob.sync(path.resolve("src/migrations/*.ts")).reduce((entries, filename) => {
+      const migrationName = path.basename(filename, ".ts");
+      return Object.assign({}, entries, {
+        ['migrations/' + migrationName]: filename,
+      });
+    }, {}),
+  },
   target: 'node',
   externals: {
     "sqlite3": 'commonjs sqlite3',
@@ -28,15 +37,17 @@ module.exports = {
   },
   output: {
     clean: true,
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
   },
-    plugins: [
-        //ignore the drivers you don't want. This is the complete list of all drivers -- remove the suppressions for drivers you want to use.
-        new FilterWarningsPlugin({
-            exclude: [/mongodb/, /mssql/, /mysql/, /mysql2/, /oracledb/, /pg/, /pg-native/, /pg-query-stream/, /react-native-sqlite-storage/, /redis/, /sql.js/, /typeorm-aurora-data-api-driver/]
-        })
-    ]
+  optimization: {
+    minimize: false,
+  },
+  plugins: [
+      new FilterWarningsPlugin({
+          exclude: [/mongodb/, /mssql/, /mysql/, /mysql2/, /oracledb/, /pg/, /pg-native/, /pg-query-stream/, /react-native-sqlite-storage/, /redis/, /sql.js/, /typeorm-aurora-data-api-driver/]
+      })
+  ]
 };
 
 
