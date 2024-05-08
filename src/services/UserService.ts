@@ -1,5 +1,5 @@
-import { AppDataSource } from "./../orm/dataSource";
-import { User } from "./../entities/User";
+import { AppDataSource } from "@/orm/dataSource";
+import { User } from "@/entities/User";
 import PasswordService from "./PasswordService";
 
 class UserService {

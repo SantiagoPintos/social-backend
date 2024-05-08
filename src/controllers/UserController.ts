@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { validateUserLogin, validateUserRegistration } from "./../validators/userValidator";
-import { UserDTO } from "./../dtos/user.dto";
-import { User } from "./../entities/User";
-import { Tokens } from "./../entities/Tokens";
-import  UserService from "./../services/UserService";
-import  AuthService  from "./../services/AuthService";
-import  TokenService  from "./../services/TokenService";
+import { validateUserLogin, validateUserRegistration } from "@/validators/userValidator";
+import { UserDTO } from "@/dtos/user.dto";
+import { User } from "@/entities/User";
+import { Tokens } from "@/entities/Tokens";
+import  UserService from "@/services/UserService";
+import  AuthService  from "@/services/AuthService";
+import  TokenService  from "@/services/TokenService";
 
 export async function registerUser(req: Request, res: Response): Promise<void> {
     try {

@@ -1,10 +1,10 @@
 import { Response, Request } from "express";
-import PostService from "./../services/PostService";
-import { Post } from "./../entities/Post";
-import { Comment } from "./../entities/Comment";
-import { newPostDTO } from "./../dtos/post.dto";
-import PostDataIncompleteError from "./../errors/Publication/PostDataIncompleteError";
-import CommentDataIncompleteError from "./../errors/Publication/CommentDataIncompleteError";
+import PostService from "@/services/PostService";
+import { Post } from "@/entities/Post";
+import { Comment } from "@/entities/Comment";
+import { newPostDTO } from "@/dtos/post.dto";
+import PostDataIncompleteError from "@/errors/Publication/PostDataIncompleteError";
+import CommentDataIncompleteError from "@/errors/Publication/CommentDataIncompleteError";
 
 export async function getUserPosts(req: Request, res: Response): Promise<void> {
     try {

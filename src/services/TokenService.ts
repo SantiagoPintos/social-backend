@@ -1,5 +1,5 @@
-import { AppDataSource } from "./../orm/dataSource";
-import { Tokens } from "./../entities/Tokens";
+import { AppDataSource } from "@/orm/dataSource";
+import { Tokens } from "@/entities/Tokens";
 
 class TokenService {
     async saveToken(userId: number, token: string): Promise<void> {

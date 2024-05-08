@@ -1,6 +1,6 @@
 import express from "express";
-import { getUserPosts, newUserPost, newUserPostComment } from "./../controllers/PublicationController";
-import { authUser } from "./../middleware/auth.middleware";
+import { getUserPosts, newUserPost, newUserPostComment } from "@/controllers/PublicationController";
+import { authUser } from "@/middleware/auth.middleware";
 
 const router = express.Router();
 router.get('/', authUser, getUserPosts);

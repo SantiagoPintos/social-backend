@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import AuthService from './../services/AuthService';
-import TokenService from './../services/TokenService';
-import { Tokens } from './../entities/Tokens';
-import NotAuthorizedError from './../errors/Publication/NotAuthorizedError';
+import AuthService from '@/services/AuthService';
+import TokenService from '@/services/TokenService';
+import { Tokens } from '@/entities/Tokens';
+import NotAuthorizedError from '@/errors/Publication/NotAuthorizedError';
 
 export async function authUser(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {

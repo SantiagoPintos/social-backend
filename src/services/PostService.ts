@@ -1,8 +1,8 @@
-import { AppDataSource } from "./../orm/dataSource";
-import { Post } from "./../entities/Post";
-import { Comment } from "./../entities/Comment";
+import { AppDataSource } from "@/orm/dataSource";
+import { Post } from "@/entities/Post";
+import { Comment } from "@/entities/Comment";
 import { FindManyOptions } from "typeorm";
-import { newPostDTO } from "./../dtos/post.dto";
+import { newPostDTO } from "@/dtos/post.dto";
 
 class PostService{
     async getUserPosts(userId: number, numberOfPosts: number|undefined, postId: number|undefined) : Promise<Post[]> {

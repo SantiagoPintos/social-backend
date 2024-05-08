@@ -1,5 +1,5 @@
 import { UserDTO } from "@/dtos/user.dto";
-import UserDataIncompleteError from "./../errors/User/UserDataIncompleteError";
+import UserDataIncompleteError from "@/errors/User/UserDataIncompleteError";
 
 export function validateUserRegistration(data: UserDTO):void{
     if(!data.name || !data.lastName || !data.username || !data.email || !data.password){
