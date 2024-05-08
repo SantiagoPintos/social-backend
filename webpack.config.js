@@ -1,6 +1,7 @@
 const path = require('path');
 const glob = require('glob');
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
   mode: 'production',
@@ -28,6 +29,14 @@ module.exports = {
     ],
   },
   resolve: {
+    plugins: [
+      new TsconfigPathsPlugin({
+        configFile: './tsconfig.json',
+        extensions: ['.ts', '.js'],
+        logLevel: 'info',
+        baseUrl: './src',
+      })
+    ],
     extensions: ['.ts', '.js'],
     fallback:{
             "@sap/hana-client": false,
