@@ -1,4 +1,5 @@
-interface UserToRegisterDTO{
+interface UserDTO{
+    id: number,
     name: string,
     lastName: string,
     username: string,
@@ -6,9 +7,4 @@ interface UserToRegisterDTO{
     password: string,
 }
 
-interface UserToLoginDTO{
-    username: string,
-    password: string,
-}
-
-export { UserToRegisterDTO, UserToLoginDTO }
+export { UserDTO }

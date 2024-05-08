@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { validateUserLogin, validateUserRegistration } from "./../validators/userValidator";
-import { UserToRegisterDTO, UserToLoginDTO } from "./../dtos/user.dto";
+import { UserDTO } from "./../dtos/user.dto";
 import { User } from "./../entities/User";
 import { Tokens } from "./../entities/Tokens";
 import  UserService from "./../services/UserService";
@@ -9,7 +9,7 @@ import  TokenService  from "./../services/TokenService";
 
 export async function registerUser(req: Request, res: Response): Promise<void> {
     try {
-        const user: UserToRegisterDTO = req.body;
+        const user: UserDTO = req.body;
         validateUserRegistration(user);
         const registeredUser: User = await UserService.register(user);
         const token = AuthService.generateToken(req.body.deviceId, registeredUser);
@@ -22,7 +22,7 @@ export async function registerUser(req: Request, res: Response): Promise<void> {
 
 export async function loginUser (req: Request, res: Response): Promise<void>{
     try{
-        const user: UserToLoginDTO = req.body;
+        const user: UserDTO = req.body;
         validateUserLogin(user);
         const logged: User = await UserService.login(user);
         const token: Tokens|null = await TokenService.getToken(logged.id);

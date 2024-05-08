@@ -1,7 +1,7 @@
-import { UserToRegisterDTO, UserToLoginDTO } from "@/dtos/user.dto";
+import { UserDTO } from "@/dtos/user.dto";
 import UserDataIncompleteError from "./../errors/User/UserDataIncompleteError";
 
-export function validateUserRegistration(data: UserToRegisterDTO):void{
+export function validateUserRegistration(data: UserDTO):void{
     if(!data.name || !data.lastName || !data.username || !data.email || !data.password){
         throw new UserDataIncompleteError("All fields are required");
     }
@@ -40,7 +40,7 @@ export function validateUserRegistration(data: UserToRegisterDTO):void{
     }
 }
 
-export function validateUserLogin(data: UserToLoginDTO):void{
+export function validateUserLogin(data: UserDTO):void{
     if(!data.username || !data.password){
         throw new UserDataIncompleteError("All fields are required");
     }
