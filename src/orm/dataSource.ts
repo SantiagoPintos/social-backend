@@ -1,10 +1,10 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { User } from "@/entities/User";
-import { Tokens } from "@/entities/Tokens";
-import { Post } from "@/entities/Post";
-import { Comment } from "@/entities/Comment";
-import { Like } from "@/entities/Like";
+import { User } from "./../entities/User";
+import { Tokens } from "./../entities/Tokens";
+import { Post } from "./../entities/Post";
+import { Comment } from "./../entities/Comment";
+import { Like } from "./../entities/Like";
 
 
 export const AppDataSource = new DataSource({
