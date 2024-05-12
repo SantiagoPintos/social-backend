@@ -32,7 +32,6 @@ class PostService{
         post.autorId = userId;
         post.content = postData.content;
         post.date = postData.date;
-        post.likes = 0;
         return await AppDataSource.getRepository(Post).save(post);
     }
 
@@ -56,7 +55,6 @@ class PostService{
         newComment.autorId = userId;
         newComment.content = comment;
         newComment.date = new Date();
-        newComment.likes = 0;
         newComment.parentPost = post;
 
         return await commentRepository.save(newComment);
