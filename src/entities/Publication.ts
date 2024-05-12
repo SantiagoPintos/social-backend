@@ -12,7 +12,4 @@ export abstract class Publication{
 
     @Column()
     date!: Date;
-
-    @Column()
-    likes!: number;
 }
