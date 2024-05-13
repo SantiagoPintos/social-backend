@@ -61,11 +61,26 @@ class PostService{
         return await commentRepository.save(newComment);
     }
 
-    async getPostById(postId: number): Promise<Post[]> {
+    async getPostById(postId: number): Promise<Post> {
         if(!postId){
             throw new Error('invalid post id');
         }
-        return await AppDataSource.getRepository(Post).find({ where: { id: postId } });
+        const posts = await AppDataSource.getRepository(Post).find({ where: { id: postId } });
+        if(posts.length == 0){
+            throw new Error('post not found');
+        }
+        return posts[0];
+    }
+
+    async getCommentById(commentId: number): Promise<Comment> {
+        if(!commentId){
+            throw new Error('invalid comment id');
+        }
+        const comments = await AppDataSource.getRepository(Comment).find({ where: { id: commentId } });
+        if(comments.length == 0){
+            throw new Error('comment not found');
+        }
+        return comments[0];
     }
 }
 
