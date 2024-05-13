@@ -56,6 +56,7 @@ class PostService{
         newComment.content = comment;
         newComment.date = new Date();
         newComment.parentPost = post;
+        newComment.likes = [];
 
         return await commentRepository.save(newComment);
     }
