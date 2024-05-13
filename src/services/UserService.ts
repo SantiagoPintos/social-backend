@@ -31,6 +31,14 @@ class UserService {
         }
         return user;
     }
+
+    async getUserById(id: number): Promise<User> {
+        const user = await AppDataSource.getRepository(User).findOne({ where: { id } });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        return user;
+    }
 }
 
 export default new UserService();
