@@ -60,6 +60,13 @@ class PostService{
 
         return await commentRepository.save(newComment);
     }
+
+    async getPostById(postId: number): Promise<Post[]> {
+        if(!postId){
+            throw new Error('invalid post id');
+        }
+        return await AppDataSource.getRepository(Post).find({ where: { id: postId } });
+    }
 }
 
 export default new PostService();
