@@ -65,22 +65,26 @@ class PostService{
         if(!postId){
             throw new Error('invalid post id');
         }
-        const posts = await AppDataSource.getRepository(Post).find({ where: { id: postId } });
-        if(posts.length == 0){
-            throw new Error('post not found');
-        }
-        return posts[0];
+        const post = await AppDataSource.getRepository(Post)
+                .createQueryBuilder("post")
+                .leftJoinAndSelect("post.likes", "likes")
+                .where("post.id = :id", { id: postId })
+                .getOneOrFail();
+
+        return post;
     }
 
     async getCommentById(commentId: number): Promise<Comment> {
         if(!commentId){
             throw new Error('invalid comment id');
         }
-        const comments = await AppDataSource.getRepository(Comment).find({ where: { id: commentId } });
-        if(comments.length == 0){
-            throw new Error('comment not found');
-        }
-        return comments[0];
+        const comment = await AppDataSource.getRepository(Comment)
+                .createQueryBuilder("comment")
+                .leftJoinAndSelect("comment.likes", "likes")
+                .where("comment.id = :id", { id: commentId })
+                .getOneOrFail();
+        
+        return comment;
     }
 }
 
