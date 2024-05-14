@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import LikeService from '@/services/LikeService';
-import { Like } from '@/entities/Like';
+import { likeDTO } from '@/dtos/like.dto';
 
 export async function likePost(req: Request, res: Response): Promise<void> {
     try {
@@ -9,7 +9,7 @@ export async function likePost(req: Request, res: Response): Promise<void> {
         if (!userId || !postId || (type !== 'post' && type !== 'comment')) {
             throw new Error('invalid ids');
         }
-        const like: Like = await LikeService.likePublication(userId, parseInt(postId), type);
+        const like: likeDTO = await LikeService.likePublication(userId, parseInt(postId), type);
         res.status(200).json({ message: 'Like created successfully', like });
     } catch (error: unknown) {
         console.log((error as Error).message);
