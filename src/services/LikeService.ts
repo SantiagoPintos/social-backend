@@ -5,10 +5,12 @@ import UserService from "./UserService";
 import { User } from "@/entities/User";
 import { Post } from "@/entities/Post";
 import { Comment } from "@/entities/Comment";
+import likeMapper from "@/mappers/likeMapper";
+import { likeDTO } from "@/dtos/like.dto";
 
 
 class LikeService{
-    async likePublication(userId: number, postId: number, type: string): Promise<Like> {
+    async likePublication(userId: number, postId: number, type: string): Promise<likeDTO> {
         if(!userId || !postId || (type !== 'post' && type !== 'comment')){
             throw new Error('invalid ids');
         }
@@ -32,15 +34,14 @@ class LikeService{
         } else {
             like.comment = publication;
         }
-
-        if(publication.likes.find((l) => l.user.id == userId)){
+        if(publication.likes.find((l) => l.user && l.user.id == userId)){
             await AppDataSource.getRepository(Like).remove(like);
         } else {
             await AppDataSource.getRepository(Like).save(like);
         }
 
-        return like;
+        return likeMapper.toDTO(like);
     }
-}
+} 
 
 export default new LikeService();
