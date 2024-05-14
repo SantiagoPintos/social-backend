@@ -1,9 +1,11 @@
+import { likeDTO } from "./like.dto"
+
 interface CommentDTO{
     id: number,
     autorId: number,
     content: string,
     date: Date,
-    likes: number,
+    likes: likeDTO[],
     parentPostId: number
 }
 
