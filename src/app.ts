@@ -2,6 +2,7 @@ import express from 'express';
 import { AppDataSource } from './orm/dataSource';
 import  userRoutes from './routes/UserRoutes';
 import publicationRoutes from './routes/PublicationRoutes';
+import likeRoutes from './routes/LikeRoutes';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -13,6 +14,7 @@ AppDataSource.initialize().then(() => {
     // Register the user routes
     app.use('/users', userRoutes);
     app.use('/publications', publicationRoutes);
+    app.use('/like', likeRoutes);
     
     
     // Start the server
