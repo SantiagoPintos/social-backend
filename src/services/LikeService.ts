@@ -4,25 +4,36 @@ import PostService from "./PostService";
 import UserService from "./UserService";
 import { User } from "@/entities/User";
 import { Post } from "@/entities/Post";
+import { Comment } from "@/entities/Comment";
 
 
 class LikeService{
-    async likePost(userId: number, postId: number): Promise<Like> {
-        if(!userId || !postId){
+    async likePublication(userId: number, postId: number, type: string): Promise<Like> {
+        if(!userId || !postId || (type !== 'post' && type !== 'comment')){
             throw new Error('invalid ids');
         }
         const user: User = await UserService.getUserById(userId);
-        const postList: Post[] = await PostService.getUserPosts(userId, 1, postId);
-        if(!postList || postList.length == 0 || !user){
+        let publication: Post|Comment;
+        if(type == 'post'){
+            publication = await PostService.getPostById(postId);
+        } else {
+            publication = await PostService.getCommentById(postId);
+        }
+
+        if(!publication || !user){
             throw new Error('Invalid post or user id');
         }
-        const post: Post = postList[0];
+
         const like = new Like();
         like.date = new Date();
         like.user = user;
-        like.post = post;
+        if(publication instanceof Post){
+            like.post = publication;
+        } else {
+            like.comment = publication;
+        }
 
-        if(post.likes.find((l) => l.user.id == userId)){
+        if(publication.likes.find((l) => l.user.id == userId)){
             await AppDataSource.getRepository(Like).remove(like);
         } else {
             await AppDataSource.getRepository(Like).save(like);
