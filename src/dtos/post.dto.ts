@@ -1,4 +1,5 @@
 import { likeDTO } from "./like.dto"
+import { CommentDTO } from "./comment.dto"
 
 
 interface newPostDTO{
@@ -12,7 +13,8 @@ interface postDTO {
     autorId: number,
     content: string,
     date: Date,
-    likes: likeDTO[]
+    likes: likeDTO[],
+    comments: CommentDTO[]
 }
 
 export { newPostDTO, postDTO }
