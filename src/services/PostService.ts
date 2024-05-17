@@ -3,6 +3,9 @@ import { Post } from "@/entities/Post";
 import { Comment } from "@/entities/Comment";
 import { FindManyOptions } from "typeorm";
 import { newPostDTO } from "@/dtos/post.dto";
+import PostError from "@/errors/Publication/PostError";
+import CommentError from "@/errors/Publication/CommentError";
+import idError from "@/errors/IdError";
 
 class PostService{
     async getUserPosts(userId: number, numberOfPosts: number|undefined, postId: number|undefined) : Promise<Post[]> {
@@ -63,26 +66,29 @@ class PostService{
 
     async getPostById(postId: number): Promise<Post> {
         if(!postId){
-            throw new Error('invalid post id');
+            throw new idError('invalid post id');
         }
-        const post = await AppDataSource.getRepository(Post)
-                .createQueryBuilder("post")
-                .leftJoinAndSelect("post.likes", "likes")
-                .where("post.id = :id", { id: postId })
-                .getOneOrFail();
-
+        const post = await AppDataSource.getRepository(Post).findOne({
+            where: { id: postId },
+            relations: ['likes', 'likes.user']
+        });
+        if(!post){
+            throw new PostError('Post not found');
+        }
         return post;
     }
 
     async getCommentById(commentId: number): Promise<Comment> {
         if(!commentId){
-            throw new Error('invalid comment id');
+            throw new idError('invalid comment id');
         }
-        const comment = await AppDataSource.getRepository(Comment)
-                .createQueryBuilder("comment")
-                .leftJoinAndSelect("comment.likes", "likes")
-                .where("comment.id = :id", { id: commentId })
-                .getOneOrFail();
+        const comment = await AppDataSource.getRepository(Comment).findOne({
+            where: { id: commentId },
+            relations: ['likes', 'likes.user']
+        });
+        if(!comment){
+            throw new CommentError('Comment not found');
+        }
         
         return comment;
     }
