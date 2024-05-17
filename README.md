@@ -184,11 +184,40 @@ Returns an object with the comment and its parent post.
 ```
 
 
+#### Add or remove like to post or comments
+
+```http
+  POST /like/{type}/{id}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Authorization header`      | `string` | **Required**. |
+| `userId` | `string` | **Required**. |
+
+Returns an object with the confirmation message
+
+```http
+{
+    "message": "Like removed"
+}
+```
+Or
+
+```http
+{
+    "message": "Like created successfully",
+    "like": {
+        "userId": 1,
+        "publicationId": 1,
+        "date": "2024-05-17T19:20:46.171Z"
+    }
+}
+```
+
 ## Roadmap
 
 - Support publications with multimedia content
-
-- Add/Remove likes to posts and comments
 
 
 ## Tech Stack
