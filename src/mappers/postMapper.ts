@@ -13,7 +13,7 @@ export class postMapper{
             likes: post.likes.map((l) => {
                 const like: likeDTO = {
                     userId: l.user.id,
-                    postId: l.post ? l.post.id : l.comment.id,
+                    publicationId: l.post ? l.post.id : l.comment.id,
                     date: l.date
                 }
                 return like;
@@ -28,7 +28,7 @@ export class postMapper{
                     likes: c.likes.map((l) => {
                         const like: likeDTO = {
                             userId: l.user.id,
-                            postId: l.post ? l.post.id : l.comment.id,
+                            publicationId: l.post ? l.post.id : l.comment.id,
                             date: l.date
                         }
                         return like;
