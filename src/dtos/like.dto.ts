@@ -1,6 +1,6 @@
 interface likeDTO{
     userId: number,
-    postId: number,
+    publicationId: number,
     date: Date
 }
 
