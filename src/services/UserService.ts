@@ -1,6 +1,7 @@
 import { AppDataSource } from "@/orm/dataSource";
 import { User } from "@/entities/User";
 import PasswordService from "./PasswordService";
+import UserError from "@/errors/User/UserError";
 
 class UserService {
 
@@ -35,7 +36,7 @@ class UserService {
     async getUserById(id: number): Promise<User> {
         const user = await AppDataSource.getRepository(User).findOne({ where: { id } });
         if (!user) {
-            throw new Error('User not found');
+            throw new UserError('User not found');
         }
         return user;
     }
