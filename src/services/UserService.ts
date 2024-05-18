@@ -40,6 +40,16 @@ class UserService {
         }
         return user;
     }
+
+    async updateUserProfileImage(id: number, path: string): Promise<void> {
+        try {
+            if(id<=0) throw new UserError('Invalid user id');
+            if(path.length<=6) throw new UserError('Invalid image path');
+            await AppDataSource.getRepository(User).update(id, { profileImage: path });
+        } catch (error: unknown) {
+            throw new UserError('User not found');
+        }
+    }
 }
 
 export default new UserService();
