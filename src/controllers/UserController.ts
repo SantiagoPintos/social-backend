@@ -6,6 +6,7 @@ import { Tokens } from "@/entities/Tokens";
 import  UserService from "@/services/UserService";
 import  AuthService  from "@/services/AuthService";
 import  TokenService  from "@/services/TokenService";
+import UserError from "@/errors/User/UserError";
 
 export async function registerUser(req: Request, res: Response): Promise<void> {
     try {
@@ -33,5 +34,18 @@ export async function loginUser (req: Request, res: Response): Promise<void>{
         res.status(200).json({ message: 'User successfully logged in', token: newToken });
     } catch(error: unknown){
         res.status(400).json({ message: 'Something went wrong' });
+    }
+}
+
+export async function uploadProfileImage(req: Request, res: Response): Promise<void> {
+    try{
+        const user = (req as Request & { user: User }).user;
+        const path = req.file?.path;
+        if(!user) throw new UserError('Invalid user or image');
+        if(!path) throw new UserError('Invalid file');
+        await UserService.updateUserProfileImage(user.id, path);
+        res.status(200).json({ message: 'Profile image updated successfully' });
+    } catch (error: unknown){
+        res.status(500).json({ message: (error as Error).message });
     }
 }
