@@ -5,6 +5,7 @@ interface UserDTO{
     username: string,
     email: string,
     password: string,
+    profileImage: string
 }
 
 export { UserDTO }
