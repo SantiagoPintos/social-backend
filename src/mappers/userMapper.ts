@@ -1,7 +1,7 @@
 import { User } from "@/entities/User";
 import { UserDTO } from "@/dtos/user.dto";
 
-export class userMapper{
+class userMapper{
     toDto(user: User): UserDTO{
         const dto: UserDTO = {
             id: user.id,
@@ -29,3 +29,5 @@ export class userMapper{
         return user;
     }
 }
+
+export default new userMapper();
