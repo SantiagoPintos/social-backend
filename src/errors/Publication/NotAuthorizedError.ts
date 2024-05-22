@@ -1,6 +1,6 @@
 class NotAuthorizedError extends Error {
-  constructor() {
-    super('Not authorized to access this resource');
+  constructor(message?: string) {
+    super(message);
     this.name = 'NotAuthorizedError';
   }
 }
