@@ -3,6 +3,7 @@ import { User } from "@/entities/User";
 import PasswordService from "./PasswordService";
 import UserError from "@/errors/User/UserError";
 import fs from 'fs';
+import AuthService from "./AuthService";
 
 class UserService {
 
@@ -21,7 +22,7 @@ class UserService {
         return user;
     }
 
-    async login(data: { username: string, password: string }): Promise<User> {
+    async login(data: { username: string, password: string }): Promise<string> {
         const user = await AppDataSource.getRepository(User).findOne({ where: { username: data.username } });
         //we throw the same error twice to avoid comparing the password with a non-existent user	
         if (!user) {
@@ -31,7 +32,14 @@ class UserService {
         if (!passwordMatch) {
             throw new Error('User or password incorrect');
         }
-        return user;
+        const userToken = await AuthService.getToken(user.id);
+        if (userToken) {
+            await AuthService.revokeToken(userToken);
+        }
+        const newToken = AuthService.generateToken(user);
+        await AuthService.saveToken(user.id, newToken);
+        
+        return newToken;
     }
 
     async getUserById(id: number): Promise<User> {
