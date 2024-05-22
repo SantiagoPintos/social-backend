@@ -44,7 +44,12 @@ class AuthService {
     }
 
     async getToken(userId: number): Promise<Tokens|null> {
-        return await AppDataSource.getRepository(Tokens).findOne({ where: { userId } }) || null;
+        try{
+            return await AppDataSource.getRepository(Tokens).findOne({ where: { userId } }) || null;
+        } catch (error: unknown){
+            console.log('Error getting token', (error as Error).message);
+            throw new Error('Error getting token');
+        }
     }
 
     async revokeToken(token: Tokens): Promise<void> {
