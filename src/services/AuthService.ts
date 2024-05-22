@@ -32,7 +32,12 @@ class AuthService {
     }
 
     verifyToken(token: string): string | JwtPayload{
-        return jsonwebtoken.verify(token, this.key);
+        try {
+            return jsonwebtoken.verify(token, this.key);
+        } catch (error: unknown) {
+            console.log('Error verifying token', (error as Error).message);
+            throw new Error('Error verifying token');
+        }
     }
 
     async saveToken(userId: number, token: string): Promise<void> {
