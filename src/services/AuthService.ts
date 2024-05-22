@@ -13,12 +13,15 @@ class AuthService {
         this.key = process.env.JWT_SECRET || '';
     }
 
-    generateToken(deviceId: string, user: User) :string{
+    generateToken(user: User) :string{
+        const date = new Date();
+        const sessionId = Math.random().toString(36).substring(7);
         const combinedData ={
             id: user.id,
             username: user.username,
             email: user.email,
-            deviceId: deviceId
+            date: date,
+            sessionId: sessionId
         };
         try{
             return jsonwebtoken.sign(combinedData, this.key);
