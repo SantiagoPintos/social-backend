@@ -5,6 +5,7 @@ import { Tokens } from "./../entities/Tokens";
 import { Post } from "./../entities/Post";
 import { Comment } from "./../entities/Comment";
 import { Like } from "./../entities/Like";
+import { UserFollower } from "./../entities/UserFollower";
 
 
 export const AppDataSource = new DataSource({
@@ -17,7 +18,8 @@ export const AppDataSource = new DataSource({
         Tokens, 
         Post, 
         Comment,
-        Like
+        Like,
+        UserFollower
     ],
     migrations: [
         __dirname + "/../migrations/*{.ts,.js}"
