@@ -25,7 +25,7 @@ export class User {
     profileImage!: string;
 
   @OneToMany(() => Like, (like) => like.user)
-  likes!: Like[];
+    likes!: Like[];
 
 }
 
