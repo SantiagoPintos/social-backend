@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Like } from "./Like";
+import { UserFollower } from "./UserFollower";
 
 @Entity()
 export class User {
@@ -27,5 +28,10 @@ export class User {
   @OneToMany(() => Like, (like) => like.user)
     likes!: Like[];
 
+  @OneToMany(() => UserFollower, userFollower => userFollower.followed)
+    followers!: UserFollower[];
+
+  @OneToMany(() => UserFollower, userFollower => userFollower.follower)
+    following!: UserFollower[];
 }
 
