@@ -3,20 +3,22 @@ import { validateUserLogin, validateUserRegistration } from "@/validators/userVa
 import { UserDTO } from "@/dtos/user.dto";
 import { User } from "@/entities/User";
 import  UserService from "@/services/UserService";
-import  AuthService  from "@/services/AuthService";
 import UserError from "@/errors/User/UserError";
 
 export async function registerUser(req: Request, res: Response): Promise<void> {
     try {
         const user: UserDTO = req.body;
         validateUserRegistration(user);
-        const registeredUser: User = await UserService.register(user);
-        const token = AuthService.generateToken(registeredUser);
-        await AuthService.saveToken(registeredUser.id, token);
+        const token = await UserService.register(user);
         res.status(201).json({ message: 'User successfully registered', token });
     } catch (error: unknown) {
-        if((error as Error).message.includes('SQLITE')) ({ message: 'Something went wrong' });
-        res.status(400).json({ message: (error as Error).message });
+        if((error as Error).name == 'UserDataIncompleteError') {
+            res.status(400).json({ message: (error as Error).message });
+        } else if((error as Error).name == 'UserError') {
+            res.status(400).json({ message: (error as Error).message });
+        } else {
+        res.status(500).json({ message: 'Something went wrong' });
+        }
     }
 }
 

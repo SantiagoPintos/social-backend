@@ -4,22 +4,28 @@ import PasswordService from "./PasswordService";
 import UserError from "@/errors/User/UserError";
 import fs from 'fs';
 import AuthService from "./AuthService";
+import { UserDTO } from "@/dtos/user.dto";
 
 class UserService {
 
-    async register(data: Partial<User>): Promise<User> {
+    async register(data: Partial<UserDTO>): Promise<string> {
         //check if the user already exists
         const email = data.email;
         const userExists = await AppDataSource.getRepository(User).findOne({ where: { email } });
         if (userExists) {
-            throw new Error('User already exists');
+            throw new UserError('User already exists');
         }
-        if (data.password) {
-            data.password = await PasswordService.hashPassword(data.password);
+        if (!data.password) {
+            throw new UserError('Password is required');
         }
+        data.password = await PasswordService.hashPassword(data.password);
         const user = AppDataSource.getRepository(User).create(data);
         await AppDataSource.getRepository(User).save(user);
-        return user;
+
+        const token = AuthService.generateToken(user);
+        await AuthService.saveToken(user.id, token);
+
+        return token;
     }
 
     async login(data: { username: string, password: string }): Promise<string> {
