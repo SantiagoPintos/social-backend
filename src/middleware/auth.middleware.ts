@@ -18,7 +18,7 @@ export async function authUser(req: Request, res: Response, next: NextFunction):
         if (token !== userToken?.token) {
             throw new NotAuthorizedError("Invalid token");
         }
-        next();
+        next(userToken.userId);
     } catch (error) {
         res.status(401).json({ message: (error as Error).message });
     }
