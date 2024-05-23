@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, Unique } from "typeorm";
 import { Like } from "./Like";
 import { UserFollower } from "./UserFollower";
 
@@ -13,6 +13,7 @@ export class User {
   @Column()
     lastName!: string;
 
+  @Unique("unique_username", ["username"])
   @Column()
     username!: string;
 
