@@ -6,6 +6,7 @@ import { newPostDTO } from "@/dtos/post.dto";
 import PostError from "@/errors/Publication/PostError";
 import CommentError from "@/errors/Publication/CommentError";
 import idError from "@/errors/IdError";
+import UserError from "@/errors/User/UserError";
 
 class PostService{
     async getUserPosts(userId: number, numberOfPosts: number|undefined, postId: number|undefined) : Promise<Post[]> {
@@ -91,6 +92,21 @@ class PostService{
         }
         
         return comment;
+    }
+
+    async getUserTimeLine(userId: number, followedIds: number[]): Promise<Post[]> {
+        if(!userId || userId < 0) throw new UserError('Invalid user id');
+        if(!followedIds || followedIds.length === 0) throw new UserError('No followers found');
+        const postRepo = AppDataSource.getRepository(Post);
+        if(!postRepo) throw new PostError('Repository not found');
+
+        const posts = await postRepo.createQueryBuilder("post")
+            .where("post.userId IN (:...followingIds)", { followedIds })
+            .orderBy("post.createdAt", "DESC")
+            .take(100) //limit
+            .getMany();
+    
+        return posts;
     }
 }
 
