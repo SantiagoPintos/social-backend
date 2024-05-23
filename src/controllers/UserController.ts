@@ -48,9 +48,9 @@ export async function uploadProfileImage(req: Request, res: Response): Promise<v
 
 export async function deleteProfileImage(req: Request, res: Response): Promise<void> {
     try{
-        const user = (req as Request & { user: User }).user;
+        const user = (req as Request & { user: number }).user;
         if(!user) throw new UserError('Invalid user');
-        await UserService.deleteUserProfileImage(user.id);
+        await UserService.deleteUserProfileImage(user);
         res.status(200).json({ message: 'Profile image deleted successfully' });
     } catch (error: unknown){
         res.status(500).json({ message: (error as Error).message });
