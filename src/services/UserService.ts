@@ -107,11 +107,11 @@ class UserService {
             const userFollower = await AppDataSource.getRepository(UserFollower).findOne({ where: { follower, followed } });
             if (userFollower) {
                 await AppDataSource.getRepository(UserFollower).delete({ follower, followed });
-                return returnMessage.follow; 
+                return returnMessage.unfollow; 
             }
             AppDataSource.getRepository(UserFollower).create({ follower, followed });
             await AppDataSource.getRepository(UserFollower).save({ follower, followed });
-            return returnMessage.unfollow;
+            return returnMessage.follow;
 
         } catch (error: unknown) {
             console.log((error as Error).message);
