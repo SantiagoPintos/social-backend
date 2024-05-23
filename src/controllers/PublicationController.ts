@@ -8,7 +8,7 @@ import CommentDataIncompleteError from "@/errors/Publication/CommentDataIncomple
 
 export async function getUserPosts(req: Request, res: Response): Promise<void> {
     try {
-        const userId = parseInt(req.body.userId as string);
+        const userId = (req as Request & { user: number }).user;
         const numberOfPosts = parseInt(req.body.numberOfPosts as string) || undefined;
         const postId = parseInt(req.body.postId as string) || undefined;
         const posts: Post[] = await PostService.getUserPosts(userId, numberOfPosts, postId);
@@ -21,7 +21,7 @@ export async function getUserPosts(req: Request, res: Response): Promise<void> {
 
 export async function newUserPost(req: Request, res: Response): Promise<void>{
     try{
-        const userId = parseInt(req.body.userId as string);
+        const userId = (req as Request & { user: number }).user;
         const post: newPostDTO = {
             content: req.body.content,
             date: new Date(),
@@ -40,7 +40,7 @@ export async function newUserPost(req: Request, res: Response): Promise<void>{
 
 export async function newUserPostComment(req: Request, res: Response): Promise<void>{
     try{
-        const userId = parseInt(req.body.userId as string);
+        const userId = (req as Request & { user: number }).user;
         const comment = req.body.comment;
         const parentPostId = req.body.parentPostId;
         if (!comment || !parentPostId){
