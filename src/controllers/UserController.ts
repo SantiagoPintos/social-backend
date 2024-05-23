@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { validateUserLogin, validateUserRegistration } from "@/validators/userValidator";
 import { UserDTO } from "@/dtos/user.dto";
-import { User } from "@/entities/User";
 import  UserService from "@/services/UserService";
 import UserError from "@/errors/User/UserError";
 
