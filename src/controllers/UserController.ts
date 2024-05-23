@@ -56,3 +56,19 @@ export async function deleteProfileImage(req: Request, res: Response): Promise<v
         res.status(500).json({ message: (error as Error).message });
     }
 }
+
+export async function followUser(req: Request, res: Response): Promise<void> {
+    try{
+        const user = (req as Request & { user: number }).user;
+        const followedId = parseInt(req.params.id);
+        if(!user || !followedId) throw new UserError('Invalid user');
+        const message = await UserService.followUser(user, followedId);
+        res.status(200).json({ message: message });
+    } catch (error: unknown){
+        if((error as Error).name == 'UserError'){
+            res.status(400).json({ message: (error as Error).message });
+        } else {
+            res.status(500).json({ message: 'Something went wrong' });
+        }
+    }
+}
