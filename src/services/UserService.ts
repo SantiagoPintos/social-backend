@@ -5,6 +5,7 @@ import UserError from "@/errors/User/UserError";
 import fs from 'fs';
 import AuthService from "./AuthService";
 import { UserDTO } from "@/dtos/user.dto";
+import { UserFollower } from "@/entities/UserFollower";
 
 class UserService {
 
@@ -88,6 +89,32 @@ class UserService {
         } catch (error: unknown) {
             console.log('error', error);
             throw new UserError('User not found');
+        }
+    }
+
+    async followUser(followerId: number, followedId: number): Promise<string> {
+        try {
+            enum returnMessage {
+                follow = 'User followed',
+                unfollow = 'User unfollowed'
+            }
+            
+            if(followerId<=0 || followedId<=0) throw new UserError('Invalid user id');
+            const follower = await this.getUserById(followerId);
+            const followed = await this.getUserById(followedId);
+            if(follower.id === followed.id) throw new UserError('You cannot follow yourself');
+            const userFollower = await AppDataSource.getRepository(UserFollower).findOne({ where: { follower, followed } });
+            if (userFollower) {
+                await AppDataSource.getRepository(UserFollower).delete({ follower, followed });
+                return returnMessage.follow; 
+            }
+            AppDataSource.getRepository(UserFollower).create({ follower, followed });
+            await AppDataSource.getRepository(UserFollower).save({ follower, followed });
+            return returnMessage.unfollow;
+
+        } catch (error: unknown) {
+            console.log((error as Error).message);
+            throw error;
         }
     }
 }
