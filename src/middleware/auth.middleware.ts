@@ -7,16 +7,16 @@ export async function authUser(req: Request, res: Response, next: NextFunction):
     try {
         const token = req.headers.authorization;
         if (!token) {
-            throw new NotAuthorizedError("No token provided");
+            throw new NotAuthorizedError("Unauthorized");
         }
         const payload = AuthService.verifyToken(token);
         if (!payload) {
-            throw new NotAuthorizedError("Invalid token");
+            throw new NotAuthorizedError("Unauthorized");
         }
         const userId = typeof payload === 'string' ? '' : payload.id;
         const userToken: Tokens | null = await AuthService.getToken(userId);
         if (token !== userToken?.token) {
-            throw new NotAuthorizedError("Invalid token");
+            throw new NotAuthorizedError("Unauthorized");
         }
         next(userToken.userId);
     } catch (error) {
