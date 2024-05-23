@@ -12,7 +12,8 @@ class UserService {
     async register(data: Partial<UserDTO>): Promise<string> {
         //check if the user already exists
         const email = data.email;
-        const userExists = await AppDataSource.getRepository(User).findOne({ where: { email } });
+        const username = data.username;
+        const userExists = await AppDataSource.getRepository(User).findOne({ where: [{ email }, { username }]});
         if (userExists) {
             throw new UserError('User already exists');
         }
