@@ -117,6 +117,18 @@ class UserService {
             throw error;
         }
     }
+
+    async getListOfFollowers(id: number): Promise<User[]> {
+        try {
+            if(!id || id<=0) throw new UserError('Invalid user id');
+            const user = await this.getUserById(id);
+            const followers = await AppDataSource.getRepository(UserFollower).find({ where: { followed: user } });
+            return followers.map(follower => follower.follower);
+        } catch (error: unknown) {
+            console.log((error as Error).message);
+            throw error;
+        }
+    }
 }
 
 export default new UserService();
