@@ -297,7 +297,13 @@ Returns an object with a lists of posts
     "timeline": [
         {
             "id": 14,
-            "autorId": 8,
+            "autor": {
+                "id": 8,
+                "name": "John",
+                "lastName": "Endricks",
+                "username": "john77",
+                "profileImage": null
+            }
             "content": "I love rainy days",
             "date": "2024-05-23T22:12:35.151Z",
             "likes": [],
@@ -305,7 +311,13 @@ Returns an object with a lists of posts
         },
         {
             "id": 3,
-            "autorId": 3,
+            "autor": {
+                "id": 49,
+                "name": "Robert",
+                "lastName": "Pirez",
+                "username": "flowrs3",
+                "profileImage": null
+            }
             "content": "Rain... Again....",
             "date": "2024-05-23T22:11:50.999Z",
             "likes": [],
