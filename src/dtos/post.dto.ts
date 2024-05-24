@@ -1,5 +1,6 @@
 import { likeDTO } from "./like.dto"
 import { CommentDTO } from "./comment.dto"
+import { UserToPostDTO } from "./user.dto"
 
 
 interface newPostDTO{
@@ -17,4 +18,13 @@ interface postDTO {
     comments: CommentDTO[]
 }
 
-export { newPostDTO, postDTO }
+interface postToTimelineDTO{
+    id: number,
+    autor: UserToPostDTO,
+    content: string,
+    date: Date,
+    likes: likeDTO[],
+    comments: CommentDTO[],
+}
+
+export { newPostDTO, postDTO, postToTimelineDTO }
