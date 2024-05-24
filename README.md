@@ -12,8 +12,13 @@
 - Delete posts [WIP]
 - Create comments
 - Delete comments [WIP]
-- Follow users [WIP]
+- Like posts
+- Like comments
+- Follow users
 - Block users [WIP]
+- Get timeline
+- Upload profile picture
+- Delete profile picture
 
 
 
