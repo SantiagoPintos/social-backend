@@ -1,5 +1,5 @@
 import { User } from "@/entities/User";
-import { UserDTO } from "@/dtos/user.dto";
+import { UserDTO, UserToPostDTO } from "@/dtos/user.dto";
 
 class userMapper{
     toDto(user: User): UserDTO{
@@ -27,6 +27,18 @@ class userMapper{
         user.profileImage = dto.profileImage;
         
         return user;
+    }
+
+    toTimelineDTO(user: User): UserToPostDTO{
+        const dto: UserToPostDTO = {
+            id: user.id,
+            name: user.name,
+            lastName: user.lastName,
+            username: user.username,
+            profileImage: user.profileImage
+        }
+
+        return dto;
     }
 }
 
