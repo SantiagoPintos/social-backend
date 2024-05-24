@@ -2,6 +2,7 @@ const path = require('path');
 const glob = require('glob');
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   mode: 'production',
@@ -15,10 +16,7 @@ module.exports = {
     }, {}),
   },
   target: 'node',
-  externals: {
-    "sqlite3": 'commonjs sqlite3',
-    "better-sqlite3": 'commonjs better-sqlite3',
-  },
+  externals: [nodeExternals()],
   module: {
     rules: [
       {
