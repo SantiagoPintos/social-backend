@@ -1,10 +1,10 @@
 import UserError from "@/errors/User/UserError";
 import UserService from "./UserService";
 import PostService from "./PostService";
-import { postDTO } from "@/dtos/post.dto";
+import { postToTimelineDTO } from "@/dtos/post.dto";
 
 class TimelineSerivice{
-    async getTimeline(userId: number): Promise<postDTO[]>{
+    async getTimeline(userId: number): Promise<postToTimelineDTO[]>{
         if(!userId) throw new UserError('Invalid user');
 
         const user = await UserService.getUserById(userId);
