@@ -2,7 +2,7 @@ import { AppDataSource } from "@/orm/dataSource";
 import { Post } from "@/entities/Post";
 import { Comment } from "@/entities/Comment";
 import { FindManyOptions } from "typeorm";
-import { newPostDTO, postDTO } from "@/dtos/post.dto";
+import { newPostDTO, postToTimelineDTO } from "@/dtos/post.dto";
 import PostError from "@/errors/Publication/PostError";
 import CommentError from "@/errors/Publication/CommentError";
 import idError from "@/errors/IdError";
@@ -96,7 +96,7 @@ class PostService{
         return comment;
     }
 
-    async getUserTimeLine(userId: number, followedIds: number[]): Promise<postDTO[]> {
+    async getUserTimeLine(userId: number, followedIds: number[]): Promise<postToTimelineDTO[]> {
         if(!userId || userId < 0) throw new UserError('Invalid user id');
         if(!followedIds || followedIds.length === 0) throw new UserError('No followers found');
         const postRepo = AppDataSource.getRepository(Post);
@@ -107,7 +107,7 @@ class PostService{
             order: { date: 'DESC'},
             relations: ['comments', 'likes']
         });
-        return posts.map(post => postMapper.toDto(post));
+        return await Promise.all(posts.map(async post => await postMapper.toTimelineDTO(post)));
     }
 }
 
