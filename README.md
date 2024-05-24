@@ -279,7 +279,7 @@ Or
 }
 ```
 
-#### Get user timeliune
+#### Get user timeline
 
 ```http
   GET /timeline
