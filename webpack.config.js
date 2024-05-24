@@ -1,6 +1,5 @@
 const path = require('path');
 const glob = require('glob');
-const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 
@@ -35,12 +34,7 @@ module.exports = {
         baseUrl: './src',
       })
     ],
-    extensions: ['.ts', '.js'],
-    fallback:{
-            "@sap/hana-client": false,
-            "hdb-pool": false,
-            "@google-cloud/spanner": false
-    }
+    extensions: ['.ts', '.js']
   },
   output: {
     clean: true,
@@ -49,12 +43,7 @@ module.exports = {
   },
   optimization: {
     minimize: false,
-  },
-  plugins: [
-      new FilterWarningsPlugin({
-          exclude: [/mongodb/, /mssql/, /mysql/, /mysql2/, /oracledb/, /pg/, /pg-native/, /pg-query-stream/, /react-native-sqlite-storage/, /redis/, /sql.js/, /typeorm-aurora-data-api-driver/]
-      })
-  ]
+  }
 };
 
 
