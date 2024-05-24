@@ -5,9 +5,9 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon --config ./nodemon.json",
-    "start": "npm run build && npm run start:prod",
+    "start": "npm run build && node dist/app.js",
     "build": "webpack --config webpack.config.js",
-    "start:prod": "node dist/app.js",
+    "start:prod": "npm run migrations:run && npm run start",
     "lint": "eslint . --ext .ts",
     "migrations:run": "npx ts-node ./node_modules/typeorm/cli.js migration:run -d ./src/orm/dataSource.ts"
   },
