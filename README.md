@@ -91,6 +91,70 @@ Example:
 }
 ```
 
+#### Follow/Unfollow user
+
+```http
+  POST /users/follow/:id
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Authorization header` | `string` | **Required**.|
+
+Returns a message with the confirmation/error.
+
+Example:
+
+```http
+{
+    "message": "User followed",
+}
+```
+
+
+
+#### Upload profile picture
+
+```http
+  POST /users/profile-image
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Authorization header` | `string` | **Required**.|
+| `File` | `image` | **Required**.|
+
+Returns a message with the confirmation/error.
+
+Example:
+
+```http
+{
+    "message": "Profile image updated successfully",
+}
+```
+
+
+#### Delete profile picture
+
+```http
+  DELETE /users/profile-image
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Authorization header` | `string` | **Required**.|
+
+Returns a message with the confirmation/error.
+
+Example:
+
+```http
+{
+    "message": "Profile image deleted successfully",
+}
+```
+
 
 #### Create a new post
 
@@ -212,6 +276,49 @@ Or
         "publicationId": 1,
         "date": "2024-05-17T19:20:46.171Z"
     }
+}
+```
+
+#### Get user timeliune
+
+```http
+  GET /timeline
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `Authorization header`      | `string` | **Required**. |
+
+Returns an object with a lists of posts
+
+```http
+{
+    "message": "User timeline",
+    "timeline": [
+        {
+            "id": 14,
+            "autorId": 8,
+            "content": "I love rainy days",
+            "date": "2024-05-23T22:12:35.151Z",
+            "likes": [],
+            "comments": []
+        },
+        {
+            "id": 3,
+            "autorId": 3,
+            "content": "Rain... Again....",
+            "date": "2024-05-23T22:11:50.999Z",
+            "likes": [],
+            "comments": [
+              {
+                "autorId": 2,
+                "content": "Yeah, I hate it!",
+                "date": "2024-05-23T22:11:59.999Z",
+                "likes": 0,
+              }
+            ]
+        }
+      ]
 }
 ```
 
