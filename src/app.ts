@@ -3,6 +3,7 @@ import { AppDataSource } from './orm/dataSource';
 import  userRoutes from './routes/UserRoutes';
 import publicationRoutes from './routes/PublicationRoutes';
 import likeRoutes from './routes/LikeRoutes';
+import timelineRoutes from './routes/TimelineRoutes'
 import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
@@ -25,6 +26,7 @@ AppDataSource.initialize().then(() => {
     app.use('/users', userRoutes);
     app.use('/publications', publicationRoutes);
     app.use('/like', likeRoutes);
+    app.use('/timeline', timelineRoutes);
     
     
     // Start the server
