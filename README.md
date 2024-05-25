@@ -226,7 +226,6 @@ Returns a list of the user's posts.
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `Authorization header`      | `string` | **Required**. |
-| `userId` | `string` | **Required**. |
 | `comment`      | `string` | **Required**. |
 | `parentPostId`      | `string` | **Required**. |
 
