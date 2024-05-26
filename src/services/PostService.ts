@@ -13,7 +13,7 @@ import { In } from "typeorm";
 class PostService{
     async getUserPosts(userId: number, numberOfPosts: number|undefined, postId: number|undefined) : Promise<Post[]> {
         if(!userId){
-            throw new Error('invalid user id');
+            throw new UserError('invalid user id');
         }
         const options: FindManyOptions<Post> = { 
             where: { autorId: userId },
@@ -26,8 +26,11 @@ class PostService{
             options.take = numberOfPosts;
             options.order = { id: 'DESC' };
         }
-        
-        return await AppDataSource.getRepository(Post).find(options);
+
+        const posts = await AppDataSource.getRepository(Post).find(options);
+        if(!posts || posts.length === 0) throw new PostError('No posts found');
+
+        return posts;
     }
 
     async newUserPost(userId: number, postData: newPostDTO): Promise<Post> {

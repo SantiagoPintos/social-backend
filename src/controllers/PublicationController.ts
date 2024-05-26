@@ -15,7 +15,9 @@ export async function getUserPosts(req: Request, res: Response): Promise<void> {
         res.status(200).json({ posts });
     } catch (error: unknown) {
         console.log((error as Error).message);
-        res.status(401).json({ message: 'Something went wrong' });
+        if((error as Error).name == 'UserError') res.status(400).json({ message: 'Something went wrong' });
+        if((error as Error).name == 'PostError') res.status(204).json({ message: (error as Error).message });
+        res.status(500).json({ message: 'Something went wrong' });
     }    
 }
 
