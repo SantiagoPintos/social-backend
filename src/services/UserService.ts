@@ -25,7 +25,6 @@ class UserService {
         await AppDataSource.getRepository(User).save(user);
 
         const token = AuthService.generateToken(user);
-        await AuthService.saveToken(user.id, token);
 
         return token;
     }
@@ -40,14 +39,9 @@ class UserService {
         if (!passwordMatch) {
             throw new Error('User or password incorrect');
         }
-        const userToken = await AuthService.getToken(user.id);
-        if (userToken) {
-            await AuthService.revokeToken(userToken);
-        }
-        const newToken = AuthService.generateToken(user);
-        await AuthService.saveToken(user.id, newToken);
+        const token = AuthService.generateToken(user);
         
-        return newToken;
+        return token;
     }
 
     async getUserById(id: number): Promise<User> {

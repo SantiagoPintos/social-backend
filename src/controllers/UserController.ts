@@ -28,6 +28,7 @@ export async function loginUser (req: Request, res: Response): Promise<void>{
         const loggedToken: string = await UserService.login(user);
         res.status(200).json({ message: 'User successfully logged in', token: loggedToken });
     } catch(error: unknown){
+        console.log(error);
         res.status(400).json({ message: 'Something went wrong' });
     }
 }

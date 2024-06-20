@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import AuthService from '@/services/AuthService';
-import { Tokens } from '@/entities/Tokens';
 import NotAuthorizedError from '@/errors/Publication/NotAuthorizedError';
 
 export async function authUser(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -10,16 +9,9 @@ export async function authUser(req: Request, res: Response, next: NextFunction):
             throw new NotAuthorizedError("Unauthorized");
         }
         const payload = AuthService.verifyToken(token);
-        if (!payload) {
-            throw new NotAuthorizedError("Unauthorized");
-        }
         const userId = typeof payload === 'string' ? '' : payload.id;
-        const userToken: Tokens | null = await AuthService.getToken(userId);
-        if (token !== userToken?.token) {
-            throw new NotAuthorizedError("Unauthorized");
-        }
-        next(userToken.userId);
+        next(userId);
     } catch (error) {
-        res.status(401).json({ message: (error as Error).message });
+        res.status(401).json({ message: 'Unauthorized' });
     }
 }
