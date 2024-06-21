@@ -11,7 +11,7 @@ import postMapper from "@/mappers/postMapper";
 import { In } from "typeorm";
 
 class PostService{
-    async getUserPosts(userId: number, numberOfPosts: number|undefined, postId: number|undefined) : Promise<Post[]> {
+    async getUserPosts(userId: number, numberOfPosts: number|undefined, postId: number|undefined) : Promise<postToTimelineDTO[]> {
         if(!userId){
             throw new UserError('invalid user id');
         }
@@ -30,7 +30,9 @@ class PostService{
         const posts = await AppDataSource.getRepository(Post).find(options);
         if(!posts || posts.length === 0) throw new PostError('No posts found');
 
-        return posts;
+        const postDTOs = await Promise.all(posts.map(async post => await postMapper.toTimelineDTO(post)));
+
+        return postDTOs;
     }
 
     async newUserPost(userId: number, postData: newPostDTO): Promise<Post> {

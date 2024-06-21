@@ -2,7 +2,7 @@ import { Response, Request } from "express";
 import PostService from "@/services/PostService";
 import { Post } from "@/entities/Post";
 import { Comment } from "@/entities/Comment";
-import { newPostDTO } from "@/dtos/post.dto";
+import { newPostDTO, postToTimelineDTO } from "@/dtos/post.dto";
 import PostDataIncompleteError from "@/errors/Publication/PostDataIncompleteError";
 import CommentDataIncompleteError from "@/errors/Publication/CommentDataIncompleteError";
 
@@ -11,7 +11,7 @@ export async function getUserPosts(req: Request, res: Response): Promise<void> {
         const userId = (req as Request & { user: number }).user;
         const numberOfPosts = parseInt(req.body.numberOfPosts as string) || undefined;
         const postId = parseInt(req.body.postId as string) || undefined;
-        const posts: Post[] = await PostService.getUserPosts(userId, numberOfPosts, postId);
+        const posts: postToTimelineDTO[] = await PostService.getUserPosts(userId, numberOfPosts, postId);
         res.status(200).json({ posts });
     } catch (error: unknown) {
         console.log((error as Error).message);
