@@ -50,7 +50,7 @@ export class postMapper{
             autor: userMapper.toTimelineDTO(await UserService.getUserById(post.autorId)),
             content: post.content,
             date: post.date,
-            likes: post.likes.map((l) => {
+            likes: post.likes?.map((l) => {
                 const like: likeDTO = {
                     userId: l.user.id,
                     publicationId: l.post ? l.post.id : l.comment.id,
@@ -65,7 +65,7 @@ export class postMapper{
                     date: c.date,
                     autorId: c.autorId,
                     parentPostId: c.parentPost.id,
-                    likes: c.likes.map((l) => {
+                    likes: c.likes?.map((l) => {
                         const like: likeDTO = {
                             userId: l.user.id,
                             publicationId: l.post ? l.post.id : l.comment.id,
