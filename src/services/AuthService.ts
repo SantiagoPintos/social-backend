@@ -1,6 +1,7 @@
 import { User } from '@/entities/User';
 import jsonwebtoken, { JwtPayload, Secret } from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import crypto from 'crypto';
 
 class AuthService {
     private key: Secret;
@@ -13,7 +14,7 @@ class AuthService {
 
     generateToken(user: User) :string{
         const date = new Date();
-        const sessionId = Math.random().toString(36).substring(7);
+        const sessionId = crypto.randomBytes(7).toString('hex');
         const combinedData ={
             id: user.id,
             username: user.username,
