@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import AuthService from '@/services/AuthService';
-import NotAuthorizedError from '@/errors/Publication/NotAuthorizedError';
+import NotAuthorizedError from '@/errors/Auth/NotAuthorizedError';
 
 export async function authUser(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
