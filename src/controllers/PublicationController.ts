@@ -1,6 +1,5 @@
 import { Response, Request } from "express";
 import PostService from "@/services/PostService";
-import { Post } from "@/entities/Post";
 import { Comment } from "@/entities/Comment";
 import { newPostDTO, postToTimelineDTO } from "@/dtos/post.dto";
 import PostDataIncompleteError from "@/errors/Publication/PostDataIncompleteError";
@@ -32,7 +31,7 @@ export async function newUserPost(req: Request, res: Response): Promise<void>{
         if (!post.content || !post.date){
             throw new PostDataIncompleteError();
         }
-        const newPost: Post = await PostService.newUserPost(userId, post);
+        const newPost: postToTimelineDTO = await PostService.newUserPost(userId, post);
         res.status(201).json({ message: 'Post created successfully', post: newPost });
     } catch(error: unknown){
         console.log((error as Error).message);

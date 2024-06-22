@@ -35,7 +35,7 @@ class PostService{
         return postDTOs;
     }
 
-    async newUserPost(userId: number, postData: newPostDTO): Promise<Post> {
+    async newUserPost(userId: number, postData: newPostDTO): Promise<postToTimelineDTO> {
         if(!userId){
             throw new Error('invalid user id');
         }
@@ -43,7 +43,8 @@ class PostService{
         post.autorId = userId;
         post.content = postData.content;
         post.date = postData.date;
-        return await AppDataSource.getRepository(Post).save(post);
+        post.likes = [];
+        return await postMapper.toTimelineDTO(await AppDataSource.getRepository(Post).save(post));
     }
 
     async newUserPostComment(userId: number, postId: number|undefined, comment: string): Promise<Comment> {
