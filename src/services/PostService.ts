@@ -17,7 +17,7 @@ class PostService{
         }
         const options: FindManyOptions<Post> = { 
             where: { autorId: userId },
-            relations: ['comments', 'likes'] 
+            relations: ['comments', 'likes', 'comments.parentPost'] 
         };
         if(postId && postId > 0){
             options.where = { id: postId };
