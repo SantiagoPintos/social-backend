@@ -111,7 +111,7 @@ class PostService{
         const posts = await postRepo.find({
             where: { autorId: In(followedIds)},
             order: { date: 'DESC'},
-            relations: ['comments', 'likes']
+            relations: ['comments', 'likes', 'lines.user']
         });
         return await Promise.all(posts.map(async post => await postMapper.toTimelineDTO(post)));
     }
