@@ -1,14 +1,11 @@
 import { User } from '@/entities/User';
 import jsonwebtoken, { JwtPayload, Secret } from 'jsonwebtoken';
-import dotenv from 'dotenv';
 import crypto from 'crypto';
 
 class AuthService {
     private key: Secret;
 
     constructor(){
-        //TODO: fix this
-        dotenv.config();
         this.key = process.env.JWT_SECRET || '';
     }
 
