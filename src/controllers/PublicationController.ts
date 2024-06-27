@@ -43,11 +43,11 @@ export async function newComment(req: Request, res: Response): Promise<void>{
     try{
         const userId = (req as Request & { user: number }).user;
         const comment = req.body.comment;
-        const parentPostId = req.body.parentPostId;
-        if (!comment || !parentPostId){
+        const postId = parseInt(req.params.postId);
+        if (!comment || !postId){
             throw new CommentDataIncompleteError();
         }
-        const newComment: Comment = await PostService.newUserPostComment(userId, parentPostId, comment);
+        const newComment: Comment = await PostService.newUserPostComment(userId, postId, comment);
         res.status(201).json({ message: 'Comment created successfully', post: newComment });
     } catch(error: unknown){
         console.log((error as Error).message);
