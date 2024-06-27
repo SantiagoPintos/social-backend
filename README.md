@@ -220,14 +220,14 @@ Returns a list of the user's posts.
 #### Create a new comment
 
 ```http
-  POST /publications/comments
+  POST /publications/{postId}/comments
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `Authorization header`      | `string` | **Required**. |
 | `comment`      | `string` | **Required**. |
-| `parentPostId`      | `string` | **Required**. |
+| `postId`      | `string` | **Required**. |
 
 Returns an object with the comment and its parent post.
 
