@@ -39,7 +39,7 @@ export async function newUserPost(req: Request, res: Response): Promise<void>{
     }
 }
 
-export async function newUserPostComment(req: Request, res: Response): Promise<void>{
+export async function newComment(req: Request, res: Response): Promise<void>{
     try{
         const userId = (req as Request & { user: number }).user;
         const comment = req.body.comment;
