@@ -37,7 +37,7 @@ class PostService{
 
     async newUserPost(userId: number, postData: newPostDTO): Promise<postToTimelineDTO> {
         if(!userId){
-            throw new Error('invalid user id');
+            throw new UserError('invalid user id');
         }
         const post = new Post();
         post.autorId = userId;
