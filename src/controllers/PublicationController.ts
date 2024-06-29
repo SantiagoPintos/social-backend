@@ -35,7 +35,8 @@ export async function newUserPost(req: Request, res: Response): Promise<void>{
         res.status(201).json({ message: 'Post created successfully', post: newPost });
     } catch(error: unknown){
         console.log((error as Error).message);
-        res.status(401).json({ message: 'Something went wrong' });
+        if((error as Error).name == 'UserError') res.status(400).json({ message: (error as Error).message });
+        else res.status(500).json({ message: 'Something went wrong' });
     }
 }
 
