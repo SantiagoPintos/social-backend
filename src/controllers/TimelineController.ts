@@ -7,7 +7,11 @@ export async function getUserTimeline(req: Request, res: Response): Promise<void
         const user = (req as Request & { user: number }).user;
         if (!user || user < 0) throw new UserError('Invalid user');
         const timeline = await TimelineService.getTimeline(user);
-        res.status(200).json({ message: 'User timeline', timeline: timeline });
+        if(timeline.length === 0){
+            res.status(204).json({ message: 'No posts found' });
+        } else {
+            res.status(200).json({ message: 'User timeline', timeline: timeline });
+        }
     } catch (error: unknown) {
         if((error as Error).name == 'UserError') {
             res.status(400).json({ message: (error as Error).message });
