@@ -3,11 +3,13 @@ import { Post } from "@/entities/Post";
 import { Comment } from "@/entities/Comment";
 import { FindManyOptions } from "typeorm";
 import { newPostDTO, postToTimelineDTO } from "@/dtos/post.dto";
+import { CommentDTO } from "@/dtos/comment.dto";
 import PostError from "@/errors/Publication/PostError";
 import CommentError from "@/errors/Publication/CommentError";
 import idError from "@/errors/IdError";
 import UserError from "@/errors/User/UserError";
 import postMapper from "@/mappers/postMapper";
+import commentMapper from "@/mappers/commentMapper";
 import { In } from "typeorm";
 
 class PostService{
@@ -47,7 +49,7 @@ class PostService{
         return await postMapper.toTimelineDTO(await AppDataSource.getRepository(Post).save(post));
     }
 
-    async newUserPostComment(userId: number, postId: number|undefined, comment: string): Promise<Comment> {
+    async newUserPostComment(userId: number, postId: number|undefined, comment: string): Promise<CommentDTO> {
         if(!userId){
             throw new Error('invalid user id');
         }
@@ -70,7 +72,9 @@ class PostService{
         newComment.parentPost = post;
         newComment.likes = [];
 
-        return await commentRepository.save(newComment);
+        const saved = await commentRepository.save(newComment);
+
+        return await commentMapper.toDTO(saved);
     }
 
     async getPostById(postId: number): Promise<Post> {

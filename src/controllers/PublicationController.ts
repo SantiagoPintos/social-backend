@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
 import PostService from "@/services/PostService";
-import { Comment } from "@/entities/Comment";
 import { newPostDTO, postToTimelineDTO } from "@/dtos/post.dto";
+import { CommentDTO } from "@/dtos/comment.dto";
 import PostDataIncompleteError from "@/errors/Publication/PostDataIncompleteError";
 import CommentDataIncompleteError from "@/errors/Publication/CommentDataIncompleteError";
 
@@ -48,7 +48,7 @@ export async function newComment(req: Request, res: Response): Promise<void>{
         if (!comment || !postId){
             throw new CommentDataIncompleteError();
         }
-        const newComment: Comment = await PostService.newUserPostComment(userId, postId, comment);
+        const newComment: CommentDTO = await PostService.newUserPostComment(userId, postId, comment);
         res.status(201).json({ message: 'Comment created successfully', post: newComment });
     } catch(error: unknown){
         console.log((error as Error).message);
