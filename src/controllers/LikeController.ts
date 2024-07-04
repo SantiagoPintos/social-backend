@@ -13,7 +13,7 @@ export async function likePost(req: Request, res: Response): Promise<void> {
         if (result.like) {
             res.status(201).json({ message: result.message, like: result.like });
         } else {
-            res.status(200).json({ message: result.message });
+            res.status(204).json({ message: result.message });
         }
     } catch (error: unknown) {
         if ((error as Error).name === 'PostError' || (error as Error).name === 'CommentError') {
