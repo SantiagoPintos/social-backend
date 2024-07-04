@@ -11,7 +11,7 @@ export async function likePost(req: Request, res: Response): Promise<void> {
         }
         const result = await LikeService.likePublication(userId, parseInt(postId), type);
         if (result.like) {
-            res.status(200).json({ message: result.message, like: result.like });
+            res.status(201).json({ message: result.message, like: result.like });
         } else {
             res.status(200).json({ message: result.message });
         }
