@@ -40,7 +40,7 @@ export async function uploadProfileImage(req: Request, res: Response): Promise<v
         if(!user) throw new UserError('Invalid user or image');
         if(!path) throw new UserError('Invalid file');
         await UserService.updateUserProfileImage(user, path);
-        res.status(200).json({ message: 'Profile image updated successfully' });
+        res.status(201).json({ message: 'Profile image updated successfully' });
     } catch (error: unknown){
         res.status(500).json({ message: (error as Error).message });
     }
