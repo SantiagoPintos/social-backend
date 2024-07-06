@@ -52,6 +52,9 @@ export async function newComment(req: Request, res: Response): Promise<void>{
         res.status(201).json({ message: 'Comment created successfully', post: newComment });
     } catch(error: unknown){
         console.log((error as Error).message);
-        res.status(401).json({ message: 'Something went wrong' });
+        if((error as Error).name == 'UserError') res.status(400).json({ message: (error as Error).message });
+        if((error as Error).name == 'PostError') res.status(400).json({ message: (error as Error).message });
+        if((error as Error).name == 'CommentError') res.status(400).json({ message: (error as Error).message });
+        res.status(500).json({ message: 'Something went wrong' });
     }
 }
