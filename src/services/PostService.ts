@@ -51,18 +51,18 @@ class PostService{
 
     async newUserPostComment(userId: number, postId: number|undefined, comment: string): Promise<CommentDTO> {
         if(!userId){
-            throw new Error('invalid user id');
+            throw new UserError('invalid user id');
         }
         if(!postId){
-            throw new Error('invalid post id');
+            throw new PostError('invalid post id');
         }
         if(!comment || comment.length < 3){
-            throw new Error('invalid comment');
+            throw new CommentError('invalid comment');
         }
         const postRepository = AppDataSource.getRepository(Post);
         const post = await postRepository.findOne({ where: { id: postId } });
         if(!post){
-            throw new Error('invalid post id');
+            throw new PostError('invalid post id');
         }
         const commentRepository = AppDataSource.getRepository(Comment);
         const newComment = new Comment();
