@@ -25,6 +25,8 @@ model User {
   posts       Post[]
   comments    Comment[]
   likes       Like[]
+  followers   Follow[] @relation("Followers")
+  following   Follow[] @relation("Following")
 }
 model Post {
   id          Int      @id @default(autoincrement())
@@ -56,4 +58,13 @@ model Like {
   post      Post?     @relation(fields: [postId], references: [id])
   commentId Int?
   comment   Comment? @relation(fields: [commentId], references: [id])
+}
+
+model Follow {
+  id       Int      @id @default(autoincrement())
+  date    DateTime @default(now())
+  followerId Int
+  follower   User     @relation("Followers", fields: [followerId], references: [id])
+  followedId Int
+  followed   User     @relation("Following", fields: [followedId], references: [id])
 }
