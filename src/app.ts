@@ -5,7 +5,7 @@ import likeRoutes from './routes/LikeRoutes';
 import timelineRoutes from './routes/TimelineRoutes'
 import cors from 'cors';
 import path from 'path';
-import { checkDbConnection } from './orm/prisma/checkDbConnection';
+import { checkDbConnection } from './utils/checkDbConnection';
 
 const app = express();
 const port = 4000;
