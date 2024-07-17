@@ -1,14 +1,13 @@
 
 export abstract class Publication{
-    id!: number;
+    id?: number;
     autorId!: number;
     content!: string;
     date!: Date;
 
-    constructor(id: number, autorId: number, content: string, date: Date){
-        this.id = id;
+    constructor(autorId: number, content: string){
         this.autorId = autorId;
         this.content = content;
-        this.date = date;
+        this.date = new Date();
     }
 }
