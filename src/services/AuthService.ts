@@ -13,7 +13,6 @@ class AuthService {
         const date = new Date();
         const sessionId = crypto.randomBytes(7).toString('hex');
         const combinedData ={
-            id: user.id,
             username: user.username,
             email: user.email,
             date: date,
