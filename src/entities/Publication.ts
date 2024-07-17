@@ -1,15 +1,14 @@
-import { Column, PrimaryGeneratedColumn } from "typeorm";
 
 export abstract class Publication{
-    @PrimaryGeneratedColumn()
     id!: number;
-
-    @Column()
     autorId!: number;
-
-    @Column()
     content!: string;
-
-    @Column()
     date!: Date;
+
+    constructor(id: number, autorId: number, content: string, date: Date){
+        this.id = id;
+        this.autorId = autorId;
+        this.content = content;
+        this.date = date;
+    }
 }
