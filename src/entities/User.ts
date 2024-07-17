@@ -2,7 +2,6 @@ import { Like } from "./Like";
 import { UserFollower } from "./UserFollower";
 
 export class User {
-    id!: number;
     name!: string;
     lastName!: string;
     username!: string;
@@ -13,8 +12,7 @@ export class User {
     followers!: UserFollower[];
     following!: UserFollower[];
 
-    constructor(id: number, name: string, lastName: string, username: string, email: string, password: string, profileImage: string) {
-        this.id = id;
+    constructor(name: string, lastName: string, username: string, email: string, password: string, profileImage: string) {
         this.name = name;
         this.lastName = lastName;
         this.username = username;
