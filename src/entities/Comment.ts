@@ -1,13 +1,14 @@
-import { Entity, ManyToOne, OneToMany } from "typeorm";
 import { Publication } from "./Publication";
 import { Post } from "./Post";
 import { Like } from "./Like";
 
-@Entity()
 export class Comment extends Publication {
-  @ManyToOne(() => Post, (post) => post.comments)
   parentPost!: Post;
-
-  @OneToMany(() => Like, (like) => like.comment)
   likes!: Like[];
+
+  constructor(autor: number, content: string, parentPost: Post) {
+    super(autor, content);
+    this.parentPost = parentPost;
+    this.likes = new Array<Like>();
+  }
 }
