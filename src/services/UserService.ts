@@ -1,4 +1,3 @@
-import { AppDataSource } from "@/orm/dataSource";
 import { User } from "@/entities/User";
 import PasswordService from "./PasswordService";
 import UserError from "@/errors/User/UserError";
@@ -6,14 +5,23 @@ import fs from 'fs';
 import AuthService from "./AuthService";
 import { UserDTO } from "@/dtos/user.dto";
 import { UserFollower } from "@/entities/UserFollower";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 class UserService {
 
-    async register(data: Partial<UserDTO>): Promise<string> {
-        //check if the user already exists
+    async register(data: UserDTO): Promise<string> {
         const email = data.email;
         const username = data.username;
-        const userExists = await AppDataSource.getRepository(User).findOne({ where: [{ email }, { username }]});
+        const userExists = await prisma.user.findFirst({
+            where: {
+                OR: [
+                    { email: email },
+                    { username: username }
+                ]
+            }
+        });
         if (userExists) {
             throw new UserError('User already exists');
         }
@@ -21,34 +29,46 @@ class UserService {
             throw new UserError('Password is required');
         }
         data.password = await PasswordService.hashPassword(data.password);
-        const user = AppDataSource.getRepository(User).create(data);
-        await AppDataSource.getRepository(User).save(user);
-
-        const token = AuthService.generateToken(user);
+        const newUser = new User(data.name, data.lastName, data.username, data.email, data.password, data.profileImage);
+        await prisma.user.create({ 
+            data: {
+                ...newUser,
+                likes: {
+                    create: []
+                },
+                followers: {
+                    create: []
+                },
+                following: undefined
+            }
+        });
+        const token = AuthService.generateToken(newUser);
 
         return token;
     }
 
     async login(data: { username: string, password: string }): Promise<string> {
-        const user = await AppDataSource.getRepository(User).findOne({ where: { username: data.username } });
-        //we throw the same error twice to avoid comparing the password with a non-existent user	
-        if (!user) {
-            throw new Error('User or password incorrect');
+        if (!data.username || !data.password) {
+            throw new UserError('User and password are required');
         }
+        const user = await prisma.user.findUniqueOrThrow({
+            where: {
+                username: data.username
+            }
+        });
         const passwordMatch = await PasswordService.comparePassword(data.password, user.password);
         if (!passwordMatch) {
             throw new Error('User or password incorrect');
         }
-        const token = AuthService.generateToken(user);
+        const castedUser = user as unknown as User;
+        const token = AuthService.generateToken(castedUser);
         
         return token;
     }
 
     async getUserById(id: number): Promise<User> {
-        const user = await AppDataSource.getRepository(User).findOne({ where: { id } });
-        if (!user) {
-            throw new UserError('User not found');
-        }
+        const user = await prisma.user.findUniqueOrThrow({ where: { id }, include: { followers: true, following: true, likes: { include: { user: true, post: true, comment: true } } } });
+    
         return user;
     }
 
